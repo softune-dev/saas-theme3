@@ -92,7 +92,7 @@ export default async function FAQPage() {
           </div>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-none bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
           >
             <span>Contact us</span>
             <ArrowRight className="size-4" />

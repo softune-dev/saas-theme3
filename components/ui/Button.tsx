@@ -31,9 +31,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    useTheme();
-
-    const radiusClass = "rounded-none";
+    const { getButtonRadiusClass } = useTheme();
+    const radiusClass = getButtonRadiusClass();
 
     const sizeClasses = {
       sm: "px-3.5 py-1.5 text-xs font-medium gap-1.5",

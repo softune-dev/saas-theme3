@@ -165,7 +165,7 @@ export function ProductShowcaseSection({
                 type="button"
                 onClick={handleAddToBag}
                 disabled={!canAdd}
-                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-none border border-stone-800 py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--foreground)] uppercase transition-all hover:bg-[var(--brand)] hover:text-[var(--background)] disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-800 py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--foreground)] uppercase transition-all hover:bg-[var(--brand)] hover:text-[var(--background)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/assets/bag.svg" alt="" className="h-4 w-4" />
@@ -173,7 +173,7 @@ export function ProductShowcaseSection({
               </button>
               <Link
                 href={`/shop/${product.slug}`}
-                className="inline-flex flex-1 items-center justify-center rounded-none bg-[var(--brand)] py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
+                className="inline-flex flex-1 items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
               >
                 View details
               </Link>

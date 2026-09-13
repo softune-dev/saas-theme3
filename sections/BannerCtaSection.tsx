@@ -86,7 +86,7 @@ export function BannerCtaSection({
                 />
                 <button
                   type="submit"
-                  className="flex shrink-0 items-center justify-center gap-2 rounded-none bg-[var(--brand)] px-6 py-3.5 text-xs font-semibold tracking-wider text-[var(--background)] uppercase transition-opacity hover:opacity-90"
+                  className="flex shrink-0 items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-6 py-3.5 text-xs font-semibold tracking-wider text-[var(--background)] uppercase transition-opacity hover:opacity-90"
                 >
                   <span>{button}</span>
                   <ArrowRight className="h-4 w-4" />

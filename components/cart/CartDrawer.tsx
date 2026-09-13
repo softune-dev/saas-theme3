@@ -66,7 +66,7 @@ export function CartDrawer() {
                   <Link
                     href="/shop"
                     onClick={closeDrawer}
-                    className="mt-8 inline-block rounded-none bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[12px] uppercase tracking-[0.2em] font-medium hover:bg-black transition-colors"
+                    className="mt-8 inline-block rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[12px] uppercase tracking-[0.2em] font-medium hover:bg-black transition-colors"
                   >
                     Return to shop
                   </Link>
@@ -181,7 +181,7 @@ export function CartDrawer() {
                 <Link
                   href="/checkout"
                   onClick={closeDrawer}
-                  className="w-full flex items-center justify-center rounded-none bg-[var(--brand)] text-[var(--background)] py-4 text-[13px] uppercase tracking-[0.18em] hover:bg-black transition-colors font-medium"
+                  className="w-full flex items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] py-4 text-[13px] uppercase tracking-[0.18em] hover:bg-black transition-colors font-medium"
                 >
                   Checkout
                 </Link>

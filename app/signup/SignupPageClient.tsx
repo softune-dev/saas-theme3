@@ -90,7 +90,7 @@ export function SignupPageClient() {
 
               <button
                 type="submit"
-                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-none bg-[var(--brand)] py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
+                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
               >
                 <span>Create Account</span>
                 <ArrowRight className="h-4 w-4" />

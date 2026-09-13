@@ -73,7 +73,7 @@ export function CartPageClient() {
           {itemCount === 0 ? (
             <Link
               href="/shop"
-              className="inline-flex rounded-none bg-[var(--brand)] px-8 py-3.5 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
+              className="inline-flex rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-8 py-3.5 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
             >
               Explore collections
             </Link>
@@ -287,7 +287,7 @@ export function CartPageClient() {
 
                 <Link
                   href="/checkout"
-                  className="flex w-full items-center justify-center rounded-none bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
+                  className="flex w-full items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
                 >
                   Proceed to checkout · {formatTaka(total)}
                 </Link>

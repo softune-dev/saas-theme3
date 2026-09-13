@@ -15,7 +15,7 @@ export function AnnouncementBar() {
   const items = (settings.announcementItems ?? [])
     .map((s) => s.trim())
     .filter(Boolean);
-  const divider = settings.announcementDivider?.trim() || "✦";
+  const divider = "|";
   const marqueeItems =
     items.length > 0 ? items : ["Your announcement goes here"];
   const phone = (business.phone ?? "").trim();
@@ -57,7 +57,7 @@ export function AnnouncementBar() {
               .map((text, i) => (
                 <Fragment key={`${text}-${i}`}>
                   <span>{text}</span>
-                  <span aria-hidden className="opacity-60">
+                  <span aria-hidden className="px-0.5 font-sans opacity-50">
                     {divider}
                   </span>
                 </Fragment>

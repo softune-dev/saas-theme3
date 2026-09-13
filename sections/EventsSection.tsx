@@ -49,7 +49,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
               {event.description}
             </p>
           ) : null}
-          <span className="mt-1.5 inline-flex items-center justify-center bg-[var(--brand)] px-8 py-3.5 text-sm font-semibold tracking-wider text-white uppercase">
+          <span className="mt-1.5 inline-flex items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-8 py-3.5 text-sm font-semibold tracking-wider text-white uppercase">
             {event.ctaLabel || "Shop now"}
           </span>
         </div>

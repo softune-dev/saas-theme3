@@ -178,7 +178,7 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
 
                   <button
                     type="submit"
-                    className="w-full rounded-none bg-[var(--brand)] text-[var(--background)] py-3 text-[11px] uppercase tracking-[0.24em] font-semibold hover:opacity-90 transition-opacity"
+                    className="w-full rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] py-3 text-[11px] uppercase tracking-[0.24em] font-semibold hover:opacity-90 transition-opacity"
                   >
                     Submit Review
                   </button>
@@ -193,7 +193,7 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
               <button
                 type="button"
                 onClick={() => setShowForm(true)}
-                className="rounded-none bg-[var(--brand)] px-8 py-3 text-[11px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
+                className="rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-8 py-3 text-[11px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
               >
                 Write a Review
               </button>
@@ -204,7 +204,7 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
                 <button
                   type="button"
                   onClick={() => setShowForm(true)}
-                  className="rounded-none bg-[var(--brand)] px-8 py-3 text-[11px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
+                  className="rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-8 py-3 text-[11px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
                 >
                   Write a Review
                 </button>

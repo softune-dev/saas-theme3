@@ -60,9 +60,17 @@ export function ThemeProvider({
     setSettings((prev) => ({ ...prev, ...newSettings }));
   };
 
-  // Fashion Classic is square-cornered — merchant buttonStyle is still
-  // stored and read, but radius is always 0 so the skin stays sharp.
-  const getButtonRadiusClass = () => "rounded-none";
+  const getButtonRadiusClass = () => {
+    switch (settings.buttonStyle) {
+      case "Pill":
+        return "rounded-full";
+      case "Rounded":
+        return "rounded-xl";
+      case "Square":
+      default:
+        return "rounded-none";
+    }
+  };
 
   // These are the ONLY three CSS variables the editor's color pickers should
   // touch, and they must be the exact names every section/page actually
@@ -83,7 +91,13 @@ export function ThemeProvider({
       root.style.setProperty("--background", settings.surfaceColor, "important");
     }
 
-    root.style.setProperty("--theme-btn-radius", "0px", "important");
+    const radius =
+      settings.buttonStyle === "Pill"
+        ? "9999px"
+        : settings.buttonStyle === "Rounded"
+          ? "0.75rem"
+          : "0px";
+    root.style.setProperty("--theme-btn-radius", radius, "important");
 
     // Curated fonts resolve to a next/font CSS var (fast, no FOUC). Anything
     // else is a literal Google Font family name picked from the editor's

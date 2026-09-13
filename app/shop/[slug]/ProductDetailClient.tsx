@@ -335,7 +335,7 @@ export function ProductDetailClient({
 
               <button
                 onClick={handleAddToCart}
-                className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-none border border-stone-800 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-all hover:bg-[var(--brand)] hover:text-[var(--background)]"
+                className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-800 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-all hover:bg-[var(--brand)] hover:text-[var(--background)]"
               >
                 <img src="/assets/bag.svg" alt="Bag Icon" className="w-4 h-4" />
                 Add to bag
@@ -345,14 +345,14 @@ export function ProductDetailClient({
             <div className="grid gap-3 sm:grid-cols-2">
               <button
                 onClick={handleBuyNow}
-                className="cursor-pointer rounded-none bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
+                className="cursor-pointer rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
               >
                 Buy Now
               </button>
 
               <button
                 onClick={handleWhatsAppBuy}
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-none border border-stone-300 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--brand)]"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-300 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--brand)]"
               >
                 <img src="/assets/whatsapp.svg" alt="WhatsApp Icon" className="w-4.5 h-4.5" />
                 Order via WhatsApp

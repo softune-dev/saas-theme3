@@ -361,7 +361,7 @@ export function ContactPageClient({
                 <button
                   type="submit"
                   disabled={submitting || (needsChallenge && !v2Token)}
-                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-none bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90 disabled:opacity-60"
+                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90 disabled:opacity-60"
                 >
                   <span>{submitting ? "Sending..." : "Send message"}</span>
                   <Send className="size-3.5" />

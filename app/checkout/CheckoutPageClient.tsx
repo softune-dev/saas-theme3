@@ -232,7 +232,7 @@ export function CheckoutPageClient({
         </p>
         <Link
           href="/shop"
-          className="rounded-none bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[13px] uppercase tracking-[0.18em] hover:opacity-90 transition-opacity"
+          className="rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[13px] uppercase tracking-[0.18em] hover:opacity-90 transition-opacity"
         >
           Return to Shop
         </Link>
@@ -589,7 +589,7 @@ export function CheckoutPageClient({
                   type="submit"
                   form="checkout-form"
                   disabled={placing || (needsChallenge && !v2Token)}
-                  className="mt-10 w-full rounded-none bg-[var(--brand)] text-[var(--background)] py-5 text-[13px] uppercase tracking-[0.2em] hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="mt-10 w-full rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] py-5 text-[13px] uppercase tracking-[0.2em] hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span>{placing ? "Placing order…" : "Complete Order"}</span>
                   <ChevronRight strokeWidth={1.5} className="w-4 h-4" />
