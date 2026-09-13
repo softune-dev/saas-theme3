@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+@theme {
+  /* Defaults only — theme-context.tsx overwrites both with !important the
+   * moment the editor's font pickers have a real value, same pattern as the
+   * color tokens below. next/font self-hosts every candidate (see
+   * app/layout.tsx), so there is no separate @font-face import to keep in
+   * sync here. */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-ink: var(--ink);
+  --color-brand: var(--brand);
+}
+
+:root {
+  --theme-color: oklch(0.18 0.01 60);
+  --background: oklch(0.985 0.006 85);
+  --foreground: var(--theme-color);
+  --ink: oklch(0.14 0.008 60);
+  --muted: oklch(0.94 0.008 85);
+  --muted-foreground: oklch(0.45 0.012 60);
+  --accent: oklch(0.62 0.09 45);
+  --border: oklch(0.86 0.01 80);
+
+  /* Editor's Primary color role. Every button/accent in the template reads
+   * this — see theme-context.tsx, which overwrites it from settings.primaryColor.
+   * Defaults to --foreground so an unedited site still looks intentional. */
+  --brand: var(--foreground);
+}
+
+* {
+  border-color: var(--border);
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif !important;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--background);
+}
+
+/* Hairline border utility */
+.hairline {
+  border-color: color-mix(in oklch, var(--ink) 15%, transparent);
+}
+
+/* Editorial section label */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+/* Editorial link underline effect */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform-origin: right;
+  transform: scaleX(0);
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.link-underline:hover::after {
+  transform-origin: left;
+  transform: scaleX(1);
+}
+
+/* Continuous marquee animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 100s linear infinite;
+  width: max-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  margin-block: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--ink) 25%, transparent);
+  border-radius: 9999px;
+}
+
+/* reCAPTCHA v3's floating badge is required by Google's terms UNLESS the
+   site instead shows the visible text disclosure — checkout and the
+   contact form both render that text next to their submit button (see
+   components/recaptcha-disclosure.tsx), so the badge is redundant chrome
+   sitting on top of the storefront on every page. See lib/recaptcha.ts. */
+.grecaptcha-badge {
+  visibility: hidden;
+}
