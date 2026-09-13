@@ -46,8 +46,10 @@ export function SectionRenderer({
     case "hero":
       return (
         <HeroSection
+          heroMediaType={settings.heroMediaType}
           heroImages={settings.heroImages}
           heroImagesSquare={settings.heroImagesSquare}
+          heroVideo={settings.heroVideo}
         />
       );
 

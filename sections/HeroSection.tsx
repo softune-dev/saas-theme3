@@ -7,8 +7,12 @@ import { getContrastColor } from "@/lib/color-contrast";
 import { useTheme } from "@/lib/theme-context";
 
 interface HeroSectionProps {
+  heroMediaType?: "image" | "video";
   heroImages: string[];
   heroImagesSquare: string[];
+  /** One clip for both desktop and mobile — only used when heroMediaType
+   * is "video". */
+  heroVideo?: string;
   /** Fashion Classic's hero is image-only by design; heroTitle/heroBody/heroCta
    * are still accepted for contract compatibility but intentionally unused here. */
   heroTitle?: string;
@@ -103,9 +107,43 @@ function HeroSlides({
 }
 
 export function HeroSection({
+  heroMediaType,
   heroImages,
   heroImagesSquare,
+  heroVideo,
 }: HeroSectionProps) {
+  if (heroMediaType === "video") {
+    if (!heroVideo) {
+      return (
+        <section className="relative w-full bg-[var(--background)]">
+          <div className="relative flex aspect-square w-full select-none flex-col items-center justify-center border border-stone-300/80 bg-stone-200/90 p-6 text-center md:aspect-auto md:h-[85vh] md:max-h-[780px] md:min-h-[320px]">
+            <div className="mb-3 flex h-12 w-12 items-center justify-center bg-stone-300/80 text-stone-600">
+              <Plus className="h-6 w-6" strokeWidth={1.75} />
+            </div>
+            <span className="font-display text-lg text-stone-600 sm:text-xl">
+              Add hero video
+            </span>
+          </div>
+        </section>
+      );
+    }
+    return (
+      <section className="relative w-full bg-[var(--background)]">
+        <div className="relative aspect-square w-full overflow-hidden md:aspect-auto md:h-[85vh] md:max-h-[780px] md:min-h-[320px]">
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video
+            src={heroVideo}
+            className="absolute inset-0 size-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        </div>
+      </section>
+    );
+  }
+
   const wide = (heroImages ?? []).filter(Boolean);
   const square = (heroImagesSquare ?? []).filter(Boolean);
   const mobile = square.length > 0 ? square : wide;

@@ -81,9 +81,14 @@ export type SiteEditorSettings = {
   sections: PageSection[];       // ordered — render in this exact order
   announcementItems: string[];
   announcementDivider: string;
-  /** Hero is images only — no text, no buttons. 16:9 is required and drives
-   * desktop; 1:1 is optional and mobile-only, falling back to 16:9. */
+  /** Hero has no text or buttons, ever. "video" (heroMediaType) means
+   * heroVideo is the only media, one clip for both desktop and mobile;
+   * anything else (including missing, for sites saved before this field
+   * existed) means images: 16:9 (heroImages) drives desktop, 1:1
+   * (heroImagesSquare) is optional and mobile-only, falling back to 16:9. */
+  heroMediaType?: "image" | "video";
   heroImages: string[]; heroImagesSquare: string[];
+  heroVideo?: string;
   /** Up to 3 featured sale/promo campaigns — merchant picks which of their
    * real Events to show right under Hero. Curated only: an empty selection
    * means the section shows its own skeleton, never "show every event". */
