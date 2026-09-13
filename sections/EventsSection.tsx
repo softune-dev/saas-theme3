@@ -29,30 +29,34 @@ function EventCard({ event, index }: { event: Event; index: number }) {
         {event.image ? (
           <Image
             src={event.image}
-            alt=""
+            alt={event.imageOnly ? event.name : ""}
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : null}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+        {event.imageOnly ? null : (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
-        <div className="relative flex flex-col items-center gap-2 p-4 text-center sm:p-6">
-          <h3
-            style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-            className="font-display text-2xl leading-tight tracking-tight text-white sm:text-3xl md:text-4xl"
-          >
-            {event.name}
-          </h3>
-          {event.description ? (
-            <p className="max-w-sm text-sm leading-relaxed text-white/85 line-clamp-2">
-              {event.description}
-            </p>
-          ) : null}
-          <span className="mt-1.5 inline-flex items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-8 py-3.5 text-sm font-semibold tracking-wider text-white uppercase">
-            {event.ctaLabel || "Shop now"}
-          </span>
-        </div>
+            <div className="relative flex flex-col items-center gap-2 p-4 text-center sm:p-6">
+              <h3
+                style={{ fontFamily: '"Fraunces", Georgia, serif' }}
+                className="font-display text-2xl leading-tight tracking-tight text-white sm:text-3xl md:text-4xl"
+              >
+                {event.name}
+              </h3>
+              {event.description ? (
+                <p className="max-w-sm text-sm leading-relaxed text-white/85 line-clamp-2">
+                  {event.description}
+                </p>
+              ) : null}
+              <span className="mt-1.5 inline-flex items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-8 py-3.5 text-sm font-semibold tracking-wider text-white uppercase">
+                {event.ctaLabel || "Shop now"}
+              </span>
+            </div>
+          </>
+        )}
       </Link>
     </motion.div>
   );

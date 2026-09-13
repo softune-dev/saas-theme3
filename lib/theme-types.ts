@@ -232,6 +232,10 @@ export type Event = {
    * of whether this event is also featured in the homepage Events
    * section. See migrations/062_event_popup.sql. */
   isPopup: boolean;
+  /** Render just the image wherever this event appears (homepage Events
+   * card, popup modal) — no title/description/CTA. Independent of
+   * isPopup. See migrations/064_event_image_only.sql. */
+  imageOnly: boolean;
 };
 
 // Public Backend API Contracts for SEO & Dynamic Site Fetching

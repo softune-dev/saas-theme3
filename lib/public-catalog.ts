@@ -63,6 +63,7 @@ type PublicEvent = {
   discountPercent: number;
   productIds: string[];
   isPopup: boolean;
+  imageOnly: boolean;
 };
 
 function adaptEvent(e: PublicEvent): Event {
@@ -76,6 +77,7 @@ function adaptEvent(e: PublicEvent): Event {
     discountPercent: e.discountPercent,
     productIds: e.productIds,
     isPopup: e.isPopup,
+    imageOnly: e.imageOnly,
   };
 }
 
