@@ -32,6 +32,7 @@
    * this — see theme-context.tsx, which overwrites it from settings.primaryColor.
    * Defaults to --foreground so an unedited site still looks intentional. */
   --brand: var(--foreground);
+  --theme-btn-radius: 0px;
 }
 
 * {
@@ -112,6 +113,29 @@ h1, h2, h3, h4, .font-display {
   animation-play-state: paused;
 }
 
+/* Soft fade so carousel edges don't clip as a hard line. */
+.slider-edge-fade {
+  position: relative;
+}
+.slider-edge-fade::before,
+.slider-edge-fade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 4.5rem;
+  z-index: 10;
+  pointer-events: none;
+}
+.slider-edge-fade::before {
+  left: 0;
+  background: linear-gradient(to right, var(--background), transparent);
+}
+.slider-edge-fade::after {
+  right: 0;
+  background: linear-gradient(to left, var(--background), transparent);
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
@@ -125,7 +149,7 @@ h1, h2, h3, h4, .font-display {
 
 ::-webkit-scrollbar-thumb {
   background: color-mix(in oklch, var(--ink) 25%, transparent);
-  border-radius: 9999px;
+  border-radius: 0;
 }
 
 /* reCAPTCHA v3's floating badge is required by Google's terms UNLESS the

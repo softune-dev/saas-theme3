@@ -46,13 +46,13 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           <div
             key={toast.id}
             className={cn(
-              "pointer-events-auto flex items-start gap-3 p-4 shadow-xl border transition-all animate-fade-in",
+              "pointer-events-auto flex items-start gap-3 p-4  border transition-all animate-fade-in",
               toast.type === "success" &&
-                "bg-[var(--theme-ink)] text-white border-stone-800",
+                "bg-[var(--ink)] text-white border-stone-800",
               toast.type === "error" &&
                 "bg-rose-950 text-white border-rose-900",
               toast.type === "info" &&
-                "bg-[var(--theme-ink)] text-white border-stone-800"
+                "bg-[var(--ink)] text-white border-stone-800"
             )}
           >
             {toast.type === "success" && (

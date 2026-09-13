@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 export default function BlockedPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 bg-[var(--background,#fff)] px-6 text-center text-[var(--foreground,#171717)]">
-      <span className="flex size-16 items-center justify-center rounded-full bg-red-500/10 text-red-500">
+      <span className="flex size-16 items-center justify-center rounded-none bg-red-500/10 text-red-500">
         <ShieldBan className="size-8" strokeWidth={1.5} />
       </span>
       <div className="space-y-2">

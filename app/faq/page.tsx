@@ -75,7 +75,7 @@ export default async function FAQPage() {
 
         <div className="mt-16 flex flex-col items-center justify-between gap-6 border border-stone-200 bg-stone-50/50 p-8 text-center sm:flex-row sm:text-left">
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center">
-            <span className="flex size-11 shrink-0 items-center justify-center rounded-full border border-stone-200 bg-[var(--background)] text-[var(--foreground)]">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-none border border-stone-200 bg-[var(--background)] text-[var(--foreground)]">
               <HelpCircle className="size-5" strokeWidth={1.25} />
             </span>
             <div>
@@ -92,7 +92,7 @@ export default async function FAQPage() {
           </div>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-none bg-[var(--brand)] px-6 py-3 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
           >
             <span>Contact us</span>
             <ArrowRight className="size-4" />

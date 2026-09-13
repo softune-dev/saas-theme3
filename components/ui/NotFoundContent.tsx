@@ -30,7 +30,7 @@ export function NotFoundContent() {
         <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
           <Link
             href="/"
-            className="inline-flex items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[12px] uppercase tracking-wider font-semibold hover:opacity-90 transition-opacity"
+            className="inline-flex items-center justify-center rounded-none bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[12px] uppercase tracking-wider font-semibold hover:opacity-90 transition-opacity"
           >
             Return Home
           </Link>

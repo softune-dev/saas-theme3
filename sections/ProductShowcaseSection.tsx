@@ -37,7 +37,7 @@ export function ProductShowcaseSection({
   if (!product) {
     return (
       <section className="w-full bg-transparent">
-        <div className="mx-auto w-full max-w-[1600px] px-6 py-10 md:px-10 md:py-14">
+        <div className="w-full px-6 py-10 md:px-10 md:py-14">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -50,12 +50,12 @@ export function ProductShowcaseSection({
 
             {/* Product info skeleton */}
             <div className="flex w-full flex-col gap-6 md:gap-8">
-              <div className="h-3 w-24 bg-stone-200 rounded-xs" />
+              <div className="h-3 w-24 bg-stone-200 rounded-none" />
 
-              <div className="h-8 w-3/4 bg-stone-200 rounded-xs sm:h-10" />
+              <div className="h-8 w-3/4 bg-stone-200 rounded-none sm:h-10" />
 
               <div>
-                <div className="h-3 w-12 bg-stone-200 rounded-xs mb-3" />
+                <div className="h-3 w-12 bg-stone-200 rounded-none mb-3" />
                 <div className="grid grid-cols-5 gap-2">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <div
@@ -66,11 +66,11 @@ export function ProductShowcaseSection({
                 </div>
               </div>
 
-              <div className="h-6 w-28 bg-stone-200 rounded-xs" />
+              <div className="h-6 w-28 bg-stone-200 rounded-none" />
 
               <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
-                <div className="h-12 flex-1 rounded-[var(--theme-btn-radius)] border hairline bg-stone-100" />
-                <div className="h-12 flex-1 rounded-[var(--theme-btn-radius)] bg-stone-200" />
+                <div className="h-12 flex-1 rounded-none border hairline bg-stone-100" />
+                <div className="h-12 flex-1 rounded-none bg-stone-200" />
               </div>
             </div>
           </motion.div>
@@ -91,7 +91,7 @@ export function ProductShowcaseSection({
 
   return (
     <section className="w-full bg-transparent">
-      <div className="mx-auto w-full max-w-[1600px] px-6 py-10 md:px-10 md:py-14">
+      <div className="w-full px-6 py-10 md:px-10 md:py-14">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -165,7 +165,7 @@ export function ProductShowcaseSection({
                 type="button"
                 onClick={handleAddToBag}
                 disabled={!canAdd}
-                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-800 py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--foreground)] uppercase transition-all hover:bg-[var(--brand)] hover:text-[var(--background)] disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-none border border-stone-800 py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--foreground)] uppercase transition-all hover:bg-[var(--brand)] hover:text-[var(--background)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/assets/bag.svg" alt="" className="h-4 w-4" />
@@ -173,7 +173,7 @@ export function ProductShowcaseSection({
               </button>
               <Link
                 href={`/shop/${product.slug}`}
-                className="inline-flex flex-1 items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
+                className="inline-flex flex-1 items-center justify-center rounded-none bg-[var(--brand)] py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
               >
                 View details
               </Link>

@@ -50,37 +50,17 @@ export function TestimonialsSection({
   const title = (testimonialsTitle ?? "").trim() || (isSkeleton ? "What Our Customers Say" : "");
 
   return (
-    <section className="mx-auto w-full max-w-[1600px] px-6 py-10 md:px-10 md:py-14">
+    <section className="w-full px-6 py-10 md:px-10 md:py-14">
       {/* Editorial Header */}
-      <div className="mb-6 flex flex-col gap-4 text-left md:mb-8 md:flex-row md:items-end md:justify-between">
-        <div>
-          {title ? (
-            <h2
-              style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-              className="font-display text-2xl leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl md:text-4xl"
-            >
-              {title}
-            </h2>
-          ) : null}
-        </div>
-
-        {/* Side Controls */}
-        <div className="flex gap-2 shrink-0">
-          <button
-            onClick={scrollPrev}
-            aria-label="Previous testimonials"
-            className="p-3 rounded-full border hairline hover:bg-stone-200/50 text-[var(--foreground)] transition-colors cursor-pointer"
+      <div className="mb-12 text-center md:mb-16">
+        {title ? (
+          <h2
+            style={{ fontFamily: '"Fraunces", Georgia, serif' }}
+            className="font-display text-2xl leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl md:text-4xl"
           >
-            <ChevronLeft strokeWidth={1.25} className="w-5 h-5" />
-          </button>
-          <button
-            onClick={scrollNext}
-            aria-label="Next testimonials"
-            className="p-3 rounded-full border hairline hover:bg-stone-200/50 text-[var(--foreground)] transition-colors cursor-pointer"
-          >
-            <ChevronRight strokeWidth={1.25} className="w-5 h-5" />
-          </button>
-        </div>
+            {title}
+          </h2>
+        ) : null}
       </div>
 
       {/* Embla Slider Container (3 in 1 Row) */}
@@ -106,18 +86,18 @@ export function TestimonialsSection({
 
                       {/* Quote Skeleton */}
                       <div className="space-y-2 pt-1">
-                        <div className="h-4 w-full bg-stone-200/80 rounded-xs" />
-                        <div className="h-4 w-5/6 bg-stone-200/80 rounded-xs" />
-                        <div className="h-4 w-2/3 bg-stone-200/80 rounded-xs" />
+                        <div className="h-4 w-full bg-stone-200/80 rounded-none" />
+                        <div className="h-4 w-5/6 bg-stone-200/80 rounded-none" />
+                        <div className="h-4 w-2/3 bg-stone-200/80 rounded-none" />
                       </div>
                     </div>
 
                     {/* Author Info Skeleton */}
                     <div className="flex items-center gap-3 mt-6">
-                      <div className="w-10 h-10 rounded-full bg-stone-200 shrink-0" />
+                      <div className="w-10 h-10 rounded-none bg-stone-200 shrink-0" />
                       <div className="space-y-1.5">
-                        <div className="h-3 w-20 bg-stone-200 rounded-xs" />
-                        <div className="h-2.5 w-14 bg-stone-200/70 rounded-xs" />
+                        <div className="h-3 w-20 bg-stone-200 rounded-none" />
+                        <div className="h-2.5 w-14 bg-stone-200/70 rounded-none" />
                       </div>
                     </div>
                   </div>
@@ -143,11 +123,12 @@ export function TestimonialsSection({
                     key={item.id}
                     className="pl-6 flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_33.3333%] min-w-0"
                   >
-                    <div className="bg-stone-50 border hairline p-8 flex flex-col justify-between min-h-[300px] h-full text-left">
-                      {/* Quote Content */}
+                    <div className="flex h-full min-h-[300px] flex-col justify-between border-t-4 border-[var(--brand)] bg-stone-50 p-8 text-center">
                       <div className="space-y-4">
-                        {/* Rating */}
-                        <div className="flex gap-1 text-stone-800">
+                        <p className="font-display text-5xl leading-none text-[var(--brand)]">
+                          “
+                        </p>
+                        <div className="flex justify-center gap-1 text-[var(--brand)]">
                           {Array.from({ length: item.rating || 5 }).map((_, idx) => (
                             <Star
                               key={idx}
@@ -165,8 +146,8 @@ export function TestimonialsSection({
                       </div>
 
                       {/* Author Info */}
-                      <div className="flex items-center gap-3 mt-6">
-                        <div className="relative w-10 h-10 rounded-full overflow-hidden bg-stone-200 shrink-0">
+                      <div className="mt-6 flex flex-col items-center gap-3">
+                        <div className="relative h-12 w-12 shrink-0 overflow-hidden bg-stone-200">
                           {item.image ? (
                             <Image
                               src={item.image}
@@ -188,6 +169,23 @@ export function TestimonialsSection({
                 ),
               )}
         </div>
+      </div>
+
+      <div className="mt-8 flex justify-center gap-2">
+        <button
+          onClick={scrollPrev}
+          aria-label="Previous testimonials"
+          className="flex size-11 cursor-pointer items-center justify-center rounded-full border hairline text-[var(--foreground)] transition-colors hover:bg-stone-200/50"
+        >
+          <ChevronLeft strokeWidth={1.25} className="h-5 w-5" />
+        </button>
+        <button
+          onClick={scrollNext}
+          aria-label="Next testimonials"
+          className="flex size-11 cursor-pointer items-center justify-center rounded-full border hairline text-[var(--foreground)] transition-colors hover:bg-stone-200/50"
+        >
+          <ChevronRight strokeWidth={1.25} className="h-5 w-5" />
+        </button>
       </div>
     </section>
   );

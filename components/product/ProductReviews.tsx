@@ -60,7 +60,7 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
   };
 
   return (
-    <section className="py-10 md:py-12 w-full max-w-[1200px] mx-auto px-6 md:px-10">
+    <section className="w-full px-6 py-10 md:px-10 md:py-12">
       <h3
         style={{ fontFamily: '"Fraunces", Georgia, serif' }}
         className="font-display text-2xl md:text-3xl mb-10 text-[var(--foreground)] text-left"
@@ -95,9 +95,9 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
             {distribution.map((dist) => (
               <div key={dist.stars} className="flex items-center gap-3 text-xs">
                 <span className="w-2 font-medium text-stone-550">{dist.stars}</span>
-                <div className="flex-1 h-1.5 bg-stone-200/50 rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-stone-200/50 rounded-none overflow-hidden">
                   <div
-                    className="h-full bg-stone-850 rounded-full"
+                    className="h-full bg-stone-850 rounded-none"
                     style={{ width: `${dist.percentage}%` }}
                   />
                 </div>
@@ -178,7 +178,7 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
 
                   <button
                     type="submit"
-                    className="w-full rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] py-3 text-[11px] uppercase tracking-[0.24em] font-semibold hover:opacity-90 transition-opacity"
+                    className="w-full rounded-none bg-[var(--brand)] text-[var(--background)] py-3 text-[11px] uppercase tracking-[0.24em] font-semibold hover:opacity-90 transition-opacity"
                   >
                     Submit Review
                   </button>
@@ -193,7 +193,7 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
               <button
                 type="button"
                 onClick={() => setShowForm(true)}
-                className="rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-8 py-3 text-[11px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
+                className="rounded-none bg-[var(--brand)] px-8 py-3 text-[11px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
               >
                 Write a Review
               </button>
@@ -204,7 +204,7 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
                 <button
                   type="button"
                   onClick={() => setShowForm(true)}
-                  className="rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-8 py-3 text-[11px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
+                  className="rounded-none bg-[var(--brand)] px-8 py-3 text-[11px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
                 >
                   Write a Review
                 </button>
@@ -213,7 +213,7 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
                 <div key={rev.id} className="space-y-2 text-left">
                   <div className="flex items-center gap-3">
                     {/* Dummy User Avatar with initials */}
-                    <div className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-[10px] font-semibold uppercase tracking-wider text-stone-600 shrink-0">
+                    <div className="w-8 h-8 rounded-none bg-stone-100 flex items-center justify-center text-[10px] font-semibold uppercase tracking-wider text-stone-600 shrink-0">
                       {rev.name.split(' ').map(n => n[0]).join('')}
                     </div>
 

@@ -37,7 +37,7 @@ export function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
-            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-md bg-[var(--background)] flex flex-col shadow-2xl border-l hairline"
+            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-md bg-[var(--background)] flex flex-col  border-l hairline"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b hairline">
@@ -66,7 +66,7 @@ export function CartDrawer() {
                   <Link
                     href="/shop"
                     onClick={closeDrawer}
-                    className="mt-8 inline-block rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[12px] uppercase tracking-[0.2em] font-medium hover:bg-black transition-colors"
+                    className="mt-8 inline-block rounded-none bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[12px] uppercase tracking-[0.2em] font-medium hover:bg-black transition-colors"
                   >
                     Return to shop
                   </Link>
@@ -181,7 +181,7 @@ export function CartDrawer() {
                 <Link
                   href="/checkout"
                   onClick={closeDrawer}
-                  className="w-full flex items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] py-4 text-[13px] uppercase tracking-[0.18em] hover:bg-black transition-colors font-medium"
+                  className="w-full flex items-center justify-center rounded-none bg-[var(--brand)] text-[var(--background)] py-4 text-[13px] uppercase tracking-[0.18em] hover:bg-black transition-colors font-medium"
                 >
                   Checkout
                 </Link>

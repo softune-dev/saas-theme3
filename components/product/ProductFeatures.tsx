@@ -13,7 +13,7 @@ export function ProductFeatures() {
 
         {/* Feature 1 */}
         <div className="flex flex-col items-center text-center md:items-start md:text-left">
-          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full border hairline bg-stone-50 text-[var(--foreground)]">
+          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-none border hairline bg-stone-50 text-[var(--foreground)]">
             <Package strokeWidth={1.25} className="h-5 w-5" />
           </div>
           <h4 className="mb-3 text-[12px] font-semibold tracking-[0.24em] text-[var(--foreground)] uppercase">
@@ -26,7 +26,7 @@ export function ProductFeatures() {
 
         {/* Feature 2 */}
         <div className="flex flex-col items-center text-center md:items-start md:text-left">
-          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full border hairline bg-stone-50 text-[var(--foreground)]">
+          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-none border hairline bg-stone-50 text-[var(--foreground)]">
             <ShieldCheck strokeWidth={1.25} className="h-5 w-5" />
           </div>
           <h4 className="mb-3 text-[12px] font-semibold tracking-[0.24em] text-[var(--foreground)] uppercase">
@@ -39,7 +39,7 @@ export function ProductFeatures() {
 
         {/* Feature 3 */}
         <div className="flex flex-col items-center text-center md:items-start md:text-left">
-          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full border hairline bg-stone-50 text-[var(--foreground)]">
+          <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-none border hairline bg-stone-50 text-[var(--foreground)]">
             <RefreshCcw strokeWidth={1.25} className="h-5 w-5" />
           </div>
           <h4 className="mb-3 text-[12px] font-semibold tracking-[0.24em] text-[var(--foreground)] uppercase">

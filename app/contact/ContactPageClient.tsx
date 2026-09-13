@@ -182,7 +182,7 @@ export function ContactPageClient({
                   const Icon = c.icon;
                   const inner = (
                     <>
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-[var(--foreground)]">
+                      <span className="flex size-11 shrink-0 items-center justify-center rounded-none border border-stone-200 bg-stone-50 text-[var(--foreground)]">
                         <Icon strokeWidth={1.25} className="size-5" />
                       </span>
                       <span className="min-w-0 text-left">
@@ -361,7 +361,7 @@ export function ContactPageClient({
                 <button
                   type="submit"
                   disabled={submitting || (needsChallenge && !v2Token)}
-                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90 disabled:opacity-60"
+                  className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-none bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90 disabled:opacity-60"
                 >
                   <span>{submitting ? "Sending..." : "Send message"}</span>
                   <Send className="size-3.5" />

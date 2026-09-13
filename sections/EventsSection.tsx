@@ -12,7 +12,7 @@ interface EventsSectionProps {
   events: Event[];
 }
 
-const MAX_EVENTS = 3;
+const MAX_EVENTS = 2;
 
 function EventCard({ event, index }: { event: Event; index: number }) {
   return (
@@ -24,7 +24,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
     >
       <Link
         href={`/shop?event=${encodeURIComponent(event.slug)}`}
-        className="group relative flex aspect-[16/9] w-full flex-col justify-end overflow-hidden border border-stone-300/60 bg-stone-200"
+        className="group relative flex aspect-[4/5] w-full flex-col justify-end overflow-hidden bg-stone-200 md:aspect-[16/10]"
       >
         {event.image ? (
           <Image
@@ -35,14 +35,9 @@ function EventCard({ event, index }: { event: Event; index: number }) {
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : null}
-        {/* Two gradients keep left-aligned text legible over any photo: one
-            fading in from the left toward the middle, one rising from the
-            bottom — together they cover the whole text block, not just a
-            bottom strip. */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/25 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
-        <div className="relative flex flex-col items-start gap-2 p-4 text-left sm:p-6">
+        <div className="relative flex flex-col items-center gap-2 p-4 text-center sm:p-6">
           <h3
             style={{ fontFamily: '"Fraunces", Georgia, serif' }}
             className="font-display text-2xl leading-tight tracking-tight text-white sm:text-3xl md:text-4xl"
@@ -54,7 +49,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
               {event.description}
             </p>
           ) : null}
-          <span className="mt-1.5 inline-flex items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-6 py-3 text-sm font-semibold tracking-wider text-[var(--background)] uppercase transition-opacity group-hover:opacity-90">
+          <span className="mt-1.5 inline-flex items-center justify-center bg-[var(--brand)] px-8 py-3.5 text-sm font-semibold tracking-wider text-white uppercase">
             {event.ctaLabel || "Shop now"}
           </span>
         </div>
@@ -65,8 +60,8 @@ function EventCard({ event, index }: { event: Event; index: number }) {
 
 function SkeletonEventCard({ eventIndex }: { eventIndex: number }) {
   return (
-    <div className="relative flex aspect-[16/9] w-full flex-col items-start justify-end gap-2 border border-stone-300/80 bg-stone-200/90 p-4 text-left select-none sm:p-5">
-      <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-stone-300/80 text-stone-600">
+    <div className="relative flex aspect-[4/5] w-full select-none flex-col items-center justify-center gap-2 border border-stone-300/80 bg-stone-200/90 p-4 text-center md:aspect-[16/10] sm:p-5">
+      <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-none bg-stone-300/80 text-stone-600">
         <Plus className="h-3.5 w-3.5" strokeWidth={1.75} />
       </div>
       <span
@@ -75,8 +70,8 @@ function SkeletonEventCard({ eventIndex }: { eventIndex: number }) {
       >
         Add event {eventIndex}
       </span>
-      <div className="h-3 w-2/3 rounded-xs bg-stone-300/70" />
-      <div className="mt-1.5 h-8 w-28 rounded-[var(--theme-btn-radius)] bg-stone-300/80" />
+      <div className="h-3 w-2/3 rounded-none bg-stone-300/70" />
+      <div className="mt-1.5 h-8 w-28 rounded-none bg-stone-300/80" />
     </div>
   );
 }
@@ -97,9 +92,9 @@ export function EventsSection({ selectedEventIds, events }: EventsSectionProps) 
   const isSkeleton = selected.length === 0;
 
   return (
-    <section className="w-full bg-transparent">
-      <div className="mx-auto w-full max-w-[1600px] px-6 py-8 md:px-10 md:py-10">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <section className="w-full overflow-hidden bg-transparent">
+      <div className="w-full overflow-hidden px-6 py-8 md:px-10 md:py-10">
+        <div className="grid grid-cols-1 overflow-hidden md:grid-cols-2">
           {isSkeleton
             ? Array.from({ length: MAX_EVENTS }).map((_, i) => (
                 <SkeletonEventCard key={i} eventIndex={i + 1} />

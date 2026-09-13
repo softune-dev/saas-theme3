@@ -136,7 +136,7 @@ export function ShopPageClient({
           >
             <h1
               style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-              className="font-display text-4xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white drop-shadow-md"
+              className="font-display text-4xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl"
             >
               {displayTitle}
             </h1>
@@ -201,13 +201,13 @@ export function ShopPageClient({
                     <li key={p}>
                       <label className="flex items-center gap-3 cursor-pointer group">
                         <div
-                          className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-colors ${selectedPrice === p
+                          className={`w-3.5 h-3.5 rounded-none border flex items-center justify-center transition-colors ${selectedPrice === p
                               ? "border-[var(--brand)] bg-[var(--brand)]"
                               : "border-stone-300 group-hover:border-stone-550"
                             }`}
                         >
                           {selectedPrice === p && (
-                            <div className="w-1.5 h-1.5 bg-[var(--background)] rounded-full" />
+                            <div className="w-1.5 h-1.5 bg-[var(--background)] rounded-none" />
                           )}
                         </div>
                         <span
@@ -241,13 +241,13 @@ export function ShopPageClient({
                     <li key={s}>
                       <label className="flex items-center gap-3 cursor-pointer group">
                         <div
-                          className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center transition-colors ${selectedSort === s
+                          className={`w-3.5 h-3.5 rounded-none border flex items-center justify-center transition-colors ${selectedSort === s
                               ? "border-[var(--brand)] bg-[var(--brand)]"
                               : "border-stone-300 group-hover:border-stone-550"
                             }`}
                         >
                           {selectedSort === s && (
-                            <div className="w-1.5 h-1.5 bg-[var(--background)] rounded-full" />
+                            <div className="w-1.5 h-1.5 bg-[var(--background)] rounded-none" />
                           )}
                         </div>
                         <span

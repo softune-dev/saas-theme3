@@ -41,7 +41,7 @@ export const RecaptchaV2Fallback = forwardRef<
   }, []);
 
   return (
-    <div className="flex flex-col items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--background)] p-3">
+    <div className="flex flex-col items-center gap-2 rounded-none border border-[var(--border)] bg-[var(--background)] p-3">
       <p className="text-xs text-[var(--muted-foreground)]">
         We couldn't automatically verify you're not a bot — please confirm below.
       </p>

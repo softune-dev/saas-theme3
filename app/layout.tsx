@@ -32,6 +32,7 @@ import { ThemeProvider } from "@/lib/theme-context";
 import { BusinessProvider } from "@/lib/business-context";
 import { CartProvider } from "@/components/cart/CartContext";
 import { ToastProvider } from "@/components/ui/Toast";
+import { AnnouncementBar } from "@/components/header/AnnouncementBar";
 import { Header } from "@/components/header/Header";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { PreviewRouteBeacon } from "@/components/dev/PreviewRouteBeacon";
@@ -442,6 +443,7 @@ export default async function RootLayout({
           <BusinessProvider business={config.site.business ?? {}}>
             <ToastProvider>
               <CartProvider>
+                <AnnouncementBar />
                 <Header categories={categories} />
                 <main className="flex-1">{children}</main>
                 <CartDrawer />

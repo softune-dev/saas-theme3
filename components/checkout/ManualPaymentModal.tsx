@@ -63,7 +63,7 @@ function PulseDots({ color, size = 8 }: { color: string; size?: number }) {
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}
-          className="inline-block rounded-full"
+          className="inline-block rounded-none"
           style={{ width: size, height: size, backgroundColor: color }}
           animate={{ scale: [0.5, 1, 0.5] }}
           transition={{ duration: 1, repeat: Infinity, delay: i * 0.18, ease: "easeInOut" }}
@@ -150,7 +150,7 @@ export function ManualPaymentModal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.98, y: 10 }}
           transition={{ type: "spring", damping: 26, stiffness: 300 }}
-          className="relative z-10 w-full max-w-sm overflow-hidden rounded-xl bg-white shadow-2xl"
+          className="relative z-10 w-full max-w-sm overflow-hidden rounded-none bg-white "
         >
           {step === "success" ? (
             <>
@@ -175,7 +175,7 @@ export function ManualPaymentModal({
                 style={{ backgroundColor: theme.primary }}
                 className="flex flex-col items-center gap-4 px-5 py-8 text-center"
               >
-                <span className="flex size-14 items-center justify-center rounded-full bg-white/15">
+                <span className="flex size-14 items-center justify-center rounded-none bg-white/15">
                   <Check className="size-7 text-white" strokeWidth={2.5} />
                 </span>
                 <div>
@@ -220,7 +220,7 @@ export function ManualPaymentModal({
               {/* Order summary sits on white, same as the logo banner above it. */}
               <div className="bg-white px-5 py-3">
                 <div className="flex items-center gap-3">
-                  <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-slate-200">
+                  <span className="flex size-9 shrink-0 items-center justify-center rounded-none border border-slate-200">
                     <ShoppingBag className="size-4 text-slate-500" strokeWidth={1.75} />
                   </span>
                   <div className="min-w-0 flex-1">
@@ -237,7 +237,7 @@ export function ManualPaymentModal({
               <div style={{ backgroundColor: theme.primary }} className="px-5 pb-4 pt-4">
                 <ol className="space-y-2 text-left">
                   <li className="flex items-start gap-2 text-xs text-white/90">
-                    <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[11px] font-bold text-white">
+                    <span className="flex size-5 shrink-0 items-center justify-center rounded-none bg-white/20 text-[11px] font-bold text-white">
                       1
                     </span>
                     <span className="pt-0.5">
@@ -245,10 +245,10 @@ export function ManualPaymentModal({
                     </span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[11px] font-bold text-white">
+                    <span className="flex size-5 shrink-0 items-center justify-center rounded-none bg-white/20 text-[11px] font-bold text-white">
                       2
                     </span>
-                    <span className="flex items-center gap-2 rounded-sm bg-white px-3 py-1">
+                    <span className="flex items-center gap-2 rounded-none bg-white px-3 py-1">
                       <span className="text-lg font-bold tracking-wide text-slate-900">{paymentNumber}</span>
                       <button
                         type="button"
@@ -265,7 +265,7 @@ export function ManualPaymentModal({
                     </span>
                   </li>
                   <li className="flex items-start gap-2 text-xs text-white/90">
-                    <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-[11px] font-bold text-white">
+                    <span className="flex size-5 shrink-0 items-center justify-center rounded-none bg-white/20 text-[11px] font-bold text-white">
                       3
                     </span>
                     <span className="pt-0.5">টাকা পাঠিয়ে Transaction ID কপি করে নিচে বসান</span>
@@ -274,9 +274,9 @@ export function ManualPaymentModal({
 
                 <div className="mt-3 grid grid-cols-2 gap-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/assets/send-money.webp" alt="Send money step" className="w-full rounded-md object-cover" />
+                  <img src="/assets/send-money.webp" alt="Send money step" className="w-full rounded-none object-cover" />
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/assets/trxid.webp" alt="Transaction id step" className="w-full rounded-md object-cover" />
+                  <img src="/assets/trxid.webp" alt="Transaction id step" className="w-full rounded-none object-cover" />
                 </div>
 
                 <div className="mt-4">
@@ -339,7 +339,7 @@ export function ManualPaymentModal({
               {/* Hotline strip — icon + number only, no label. */}
               <div className="flex items-center justify-center gap-1.5 border-t border-slate-100 bg-white px-5 py-2">
                 <span
-                  className="flex size-5 shrink-0 items-center justify-center rounded-full"
+                  className="flex size-5 shrink-0 items-center justify-center rounded-none"
                   style={{ backgroundColor: theme.primary }}
                 >
                   <Phone className="size-2.5 text-white" strokeWidth={2} />

@@ -37,25 +37,17 @@ function CategoryProductSlider({
 
   return (
     <div className="w-full">
-      <div className="mb-6 flex items-end justify-between gap-3 md:mb-8 md:gap-4">
+      <div className="mb-10 text-center md:mb-12">
         <h3
           style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-          className="min-w-0 font-display text-xl leading-tight tracking-tight text-[var(--foreground)] sm:text-2xl md:text-3xl"
+          className="font-display text-xl leading-tight tracking-tight text-[var(--foreground)] sm:text-2xl md:text-3xl"
         >
           {categoryName}
         </h3>
-        {/* Always visible (incl. mobile) — same eyebrow treatment as
-         * Categories / Feature Products section headers. */}
-        <Link
-          href={`/shop?category=${encodeURIComponent(categorySlug)}`}
-          className="mb-0.5 shrink-0 text-[11px] uppercase tracking-[0.24em] text-[var(--foreground)] link-underline sm:text-[12px]"
-        >
-          View all
-        </Link>
       </div>
 
       <div
-        className="overflow-hidden -mx-6 px-6 md:-mx-10 md:px-10"
+        className="-mx-6 overflow-hidden px-6 md:-mx-10 md:px-10"
         ref={emblaRef}
       >
         <div className="flex w-full cursor-grab gap-4 pb-2 active:cursor-grabbing md:gap-6">
@@ -68,6 +60,15 @@ function CategoryProductSlider({
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="mt-6 text-center">
+        <Link
+          href={`/shop?category=${encodeURIComponent(categorySlug)}`}
+          className="inline-block text-[11px] uppercase tracking-[0.24em] text-[var(--foreground)] link-underline sm:text-[12px]"
+        >
+          View all
+        </Link>
       </div>
     </div>
   );
@@ -86,25 +87,17 @@ function SkeletonCategoryProductSlider({
 
   return (
     <div className="w-full select-none">
-      <div className="mb-6 flex items-end justify-between gap-3 md:mb-8 md:gap-4">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-stone-200 text-stone-600">
-            <Plus className="h-4 w-4" strokeWidth={1.75} />
-          </div>
-          <h3
-            style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-            className="min-w-0 font-display text-xl leading-tight tracking-tight text-stone-600 sm:text-2xl md:text-3xl"
-          >
-            Add category {categoryIndex}
-          </h3>
-        </div>
-        <span className="mb-0.5 shrink-0 text-[11px] uppercase tracking-[0.24em] text-stone-500 sm:text-[12px]">
-          Add products
-        </span>
+      <div className="mb-10 text-center md:mb-12">
+        <h3
+          style={{ fontFamily: '"Fraunces", Georgia, serif' }}
+          className="font-display text-xl leading-tight tracking-tight text-stone-600 sm:text-2xl md:text-3xl"
+        >
+          Add category {categoryIndex}
+        </h3>
       </div>
 
       <div
-        className="overflow-hidden -mx-6 px-6 md:-mx-10 md:px-10"
+        className="-mx-6 overflow-hidden px-6 md:-mx-10 md:px-10"
         ref={emblaRef}
       >
         <div className="flex w-full cursor-grab gap-4 pb-2 active:cursor-grabbing md:gap-6">
@@ -114,7 +107,7 @@ function SkeletonCategoryProductSlider({
               className="min-w-0 flex-[0_0_70%] sm:flex-[0_0_42%] md:flex-[0_0_30%] lg:flex-[0_0_22%]"
             >
               <div className="relative w-full aspect-[3/4] overflow-hidden bg-stone-200/90 border border-stone-300/80 flex flex-col items-center justify-center p-4 text-center">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-stone-300/80 text-stone-600 mb-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-none bg-stone-300/80 text-stone-600 mb-2">
                   <Plus className="h-4 w-4" strokeWidth={1.75} />
                 </div>
                 <span
@@ -125,9 +118,9 @@ function SkeletonCategoryProductSlider({
                 </span>
               </div>
               <div className="mt-3 space-y-1.5 text-left w-full">
-                <div className="hidden sm:block h-2.5 w-16 bg-stone-200 rounded-xs" />
-                <div className="h-4 w-3/4 bg-stone-200 rounded-xs" />
-                <div className="h-3.5 w-14 bg-stone-200 rounded-xs" />
+                <div className="hidden sm:block h-2.5 w-16 bg-stone-200 rounded-none" />
+                <div className="h-4 w-3/4 bg-stone-200 rounded-none" />
+                <div className="h-3.5 w-14 bg-stone-200 rounded-none" />
               </div>
             </div>
           ))}
@@ -154,13 +147,13 @@ export function CategoryShowcaseSection({
 
   return (
     <section className="w-full bg-transparent">
-      <div className="mx-auto w-full max-w-[1600px] px-6 py-10 md:px-10 md:py-14">
+      <div className="w-full px-6 py-10 md:px-10 md:py-14">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-6 md:mb-8"
+          className="mb-12 text-center md:mb-16"
         >
           <h2
             style={{ fontFamily: '"Fraunces", Georgia, serif' }}

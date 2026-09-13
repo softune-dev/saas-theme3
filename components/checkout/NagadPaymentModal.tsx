@@ -32,7 +32,7 @@ function PulseDots({ color, size = 8 }: { color: string; size?: number }) {
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}
-          className="inline-block rounded-full"
+          className="inline-block rounded-none"
           style={{ width: size, height: size, backgroundColor: color }}
           animate={{ scale: [0.5, 1, 0.5] }}
           transition={{ duration: 1, repeat: Infinity, delay: i * 0.18, ease: "easeInOut" }}
@@ -120,11 +120,11 @@ export function NagadPaymentModal({
           exit={{ opacity: 0, scale: 0.98, y: 10 }}
           transition={{ type: "spring", damping: 26, stiffness: 300 }}
           style={{ background: `radial-gradient(circle at 50% 35%, ${NAGAD_LIGHT} 0%, ${NAGAD_PRIMARY} 55%, ${NAGAD_DARK} 100%)` }}
-          className="relative z-10 w-full max-w-sm overflow-hidden rounded-xl shadow-2xl"
+          className="relative z-10 w-full max-w-sm overflow-hidden rounded-none "
         >
           {step === "success" ? (
             <div className="flex flex-col items-center gap-4 px-6 py-12 text-center">
-              <span className="flex size-14 items-center justify-center rounded-full bg-white/15">
+              <span className="flex size-14 items-center justify-center rounded-none bg-white/15">
                 <Check className="size-7 text-white" strokeWidth={2.5} />
               </span>
               <div>
@@ -181,7 +181,7 @@ export function NagadPaymentModal({
                     <div
                       key={i}
                       onClick={() => inputRef.current?.focus()}
-                      className="flex size-7 items-center justify-center rounded-sm bg-white text-sm font-bold uppercase text-slate-900"
+                      className="flex size-7 items-center justify-center rounded-none bg-white text-sm font-bold uppercase text-slate-900"
                     >
                       {trxId[i] ?? ""}
                     </div>
@@ -228,20 +228,20 @@ export function NagadPaymentModal({
                       type="button"
                       disabled={!canProceed}
                       onClick={handleConfirm}
-                      className="rounded-md bg-white px-6 py-2 text-sm font-bold text-slate-900 transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="rounded-none bg-white px-6 py-2 text-sm font-bold text-slate-900 transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       Proceed
                     </button>
                     <button
                       type="button"
                       onClick={handleClose}
-                      className="rounded-md bg-white px-6 py-2 text-sm font-bold text-slate-900 transition-opacity hover:opacity-90"
+                      className="rounded-none bg-white px-6 py-2 text-sm font-bold text-slate-900 transition-opacity hover:opacity-90"
                     >
                       Close
                     </button>
                   </>
                 ) : (
-                  <button type="button" disabled className="rounded-md bg-white px-8 py-2">
+                  <button type="button" disabled className="rounded-none bg-white px-8 py-2">
                     <PulseDots color={NAGAD_PRIMARY} size={7} />
                   </button>
                 )}

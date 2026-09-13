@@ -15,8 +15,8 @@ export function Badge({
   className,
 }: BadgeProps) {
   const variantStyles = {
-    primary: "bg-[var(--theme-primary)] text-white",
-    accent: "bg-[var(--theme-accent)] text-white",
+    primary: "bg-[var(--brand)] text-white",
+    accent: "bg-[var(--accent)] text-white",
     success: "bg-emerald-100 text-emerald-800 border border-emerald-200",
     warning: "bg-amber-100 text-amber-900 border border-amber-200",
     neutral: "bg-stone-100 text-stone-800 border border-stone-200",

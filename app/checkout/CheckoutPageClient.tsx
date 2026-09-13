@@ -232,7 +232,7 @@ export function CheckoutPageClient({
         </p>
         <Link
           href="/shop"
-          className="rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[13px] uppercase tracking-[0.18em] hover:opacity-90 transition-opacity"
+          className="rounded-none bg-[var(--brand)] text-[var(--background)] px-8 py-4 text-[13px] uppercase tracking-[0.18em] hover:opacity-90 transition-opacity"
         >
           Return to Shop
         </Link>
@@ -242,7 +242,7 @@ export function CheckoutPageClient({
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-[var(--background)] pb-24 text-[var(--foreground)]">
-      <div className="mx-auto w-full max-w-[1400px] px-6 md:px-10 pt-12 md:pt-16">
+      <div className="w-full px-6 pt-12 md:px-10 md:pt-16">
         <h1
           style={{ fontFamily: "var(--font-display)" }}
           className="font-display text-4xl md:text-5xl mb-12 text-[var(--foreground)]"
@@ -503,7 +503,7 @@ export function CheckoutPageClient({
           {/* Right Column: Order Summary & Add-ons */}
           <div className="min-w-0 lg:col-span-5 lg:relative">
             <div className="lg:sticky lg:top-32">
-              <div className="min-w-0 bg-[var(--background)] p-8 border hairline shadow-xs space-y-6">
+              <div className="min-w-0 bg-[var(--background)] p-8 border hairline  space-y-6">
                 <h2 className="text-[13px] uppercase tracking-[0.2em] mb-6 font-medium text-stone-500 text-left">
                   Order Summary
                 </h2>
@@ -523,7 +523,7 @@ export function CheckoutPageClient({
                             className="object-cover"
                           />
                         ) : null}
-                        <span className="absolute -top-2 -right-2 w-5 h-5 bg-[var(--brand)] text-[var(--background)] text-[10px] rounded-full flex items-center justify-center font-semibold z-10">
+                        <span className="absolute -top-2 -right-2 w-5 h-5 bg-[var(--brand)] text-[var(--background)] text-[10px] rounded-none flex items-center justify-center font-semibold z-10">
                           {i.quantity}
                         </span>
                       </div>
@@ -589,7 +589,7 @@ export function CheckoutPageClient({
                   type="submit"
                   form="checkout-form"
                   disabled={placing || (needsChallenge && !v2Token)}
-                  className="mt-10 w-full rounded-[var(--theme-btn-radius)] bg-[var(--brand)] text-[var(--background)] py-5 text-[13px] uppercase tracking-[0.2em] hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="mt-10 w-full rounded-none bg-[var(--brand)] text-[var(--background)] py-5 text-[13px] uppercase tracking-[0.2em] hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <span>{placing ? "Placing order…" : "Complete Order"}</span>
                   <ChevronRight strokeWidth={1.5} className="w-4 h-4" />
@@ -631,7 +631,7 @@ export function CheckoutPageClient({
               animate={{ y: 0, opacity: 1, rotateX: 0 }}
               transition={{ type: "spring", damping: 20, stiffness: 100 }}
               style={{ transformPerspective: 1000 }}
-              className="relative w-full max-w-sm bg-[#faf9f6] text-[#1c1c1c] p-8 shadow-2xl origin-bottom border border-stone-200"
+              className="relative w-full max-w-sm bg-[#faf9f6] text-[#1c1c1c] p-8  origin-bottom border border-stone-200"
             >
               {/* Radial gradient zigzag top/bottom edges */}
               <div className="absolute top-0 left-0 w-full h-2 bg-[radial-gradient(circle_at_50%_0,transparent_3px,#faf9f6_4px)] bg-[length:12px_100%] -translate-y-full" />
@@ -705,13 +705,13 @@ export function CheckoutPageClient({
                 </p>
                 <button
                   onClick={() => window.print()}
-                  className="w-full rounded-[var(--theme-btn-radius)] bg-[#1c1c1c] text-[#faf9f6] py-3 text-[11px] uppercase tracking-[0.2em] hover:bg-[#1c1c1c]/85 transition-colors font-semibold"
+                  className="w-full rounded-none bg-[#1c1c1c] text-[#faf9f6] py-3 text-[11px] uppercase tracking-[0.2em] hover:bg-[#1c1c1c]/85 transition-colors font-semibold"
                 >
                   Download Receipt
                 </button>
                 <button
                   onClick={handleCloseReceipt}
-                  className="w-full rounded-[var(--theme-btn-radius)] border border-[#1c1c1c]/25 py-3 text-[11px] uppercase tracking-[0.2em] hover:bg-[#1c1c1c]/5 transition-colors font-semibold"
+                  className="w-full rounded-none border border-[#1c1c1c]/25 py-3 text-[11px] uppercase tracking-[0.2em] hover:bg-[#1c1c1c]/5 transition-colors font-semibold"
                 >
                   Close Receipt
                 </button>
@@ -723,7 +723,7 @@ export function CheckoutPageClient({
 
       {manualModalOpen && manualWallets.length > 1 && !activeManualWallet ? (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 p-4">
-          <div className="w-full max-w-sm rounded-xl bg-white p-5 shadow-2xl">
+          <div className="w-full max-w-sm rounded-none bg-white p-5 ">
             <h3 className="mb-4 text-sm font-semibold text-slate-900">Choose payment method</h3>
             <div className="space-y-2">
               {manualWallets.map((w) => (
@@ -731,7 +731,7 @@ export function CheckoutPageClient({
                   key={w}
                   type="button"
                   onClick={() => setActiveManualWallet(w)}
-                  className="flex w-full items-center gap-3 rounded-lg border border-slate-200 px-3 py-3 text-left transition-colors hover:border-slate-300 hover:bg-slate-50"
+                  className="flex w-full items-center gap-3 rounded-none border border-slate-200 px-3 py-3 text-left transition-colors hover:border-slate-300 hover:bg-slate-50"
                 >
                   {w === "bkash" || w === "nagad" ? (
                     // eslint-disable-next-line @next/next/no-img-element

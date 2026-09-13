@@ -23,26 +23,26 @@ export function Footer() {
 
   return (
     <footer className="border-t hairline bg-[var(--background)]">
-      <div className="mx-auto grid max-w-[1600px] items-start gap-8 px-6 py-16 md:grid-cols-12 md:gap-8 md:px-10 md:py-24 lg:gap-16">
+      <div className="grid w-full items-start gap-8 px-6 py-16 md:grid-cols-12 md:gap-8 md:px-10 md:py-24 lg:gap-16">
 
         {/* Brand Info */}
-        <div className="flex flex-col items-center text-center md:col-span-4 md:items-start md:text-left">
+        <div className="flex flex-col items-start text-left md:col-span-4">
           <div className="mb-6">
             <SiteLogo size="lg" />
           </div>
-          <p className="mx-auto max-w-sm text-sm leading-relaxed text-stone-500 md:mx-0">
+          <p className="max-w-sm text-sm leading-relaxed text-stone-500">
             {settings.footerDescription}
           </p>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/assets/payment.png"
             alt="Accepted payment methods"
-            className="mt-4 h-auto w-full max-w-[340px] object-contain object-left md:max-w-[400px]"
+            className="mt-4 h-auto w-full max-w-[340px] object-contain object-center md:max-w-[400px]"
           />
         </div>
 
         {/* Shop Column */}
-        <div className="md:col-span-2 text-center md:text-left">
+        <div className="text-left md:col-span-2">
           <div className="text-[12px] uppercase tracking-[0.2em] mb-6 font-medium text-[var(--foreground)]">
             {settings.footerShopLabel}
           </div>
@@ -61,7 +61,7 @@ export function Footer() {
         </div>
 
         {/* Company Column */}
-        <div className="md:col-span-2 text-center md:text-left">
+        <div className="text-left md:col-span-2">
           <div className="text-[12px] uppercase tracking-[0.2em] mb-6 font-medium text-[var(--foreground)]">
             {settings.footerCompanyLabel}
           </div>
@@ -80,7 +80,7 @@ export function Footer() {
         </div>
 
         {/* Newsletter */}
-        <div className="md:col-span-4 text-center md:text-left flex flex-col items-center md:items-start">
+        <div className="flex flex-col items-center text-center md:col-span-4">
           <div className="text-[12px] uppercase tracking-[0.2em] mb-6 font-medium text-[var(--foreground)]">
             Newsletter
           </div>
@@ -120,7 +120,7 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t hairline">
-        <div className="mx-auto max-w-[1600px] px-6 md:px-10 py-8 flex flex-col md:flex-row items-center justify-between text-[11px] uppercase tracking-widest text-stone-500 gap-4">
+        <div className="flex w-full flex-col items-center justify-between gap-4 px-6 py-8 text-[11px] uppercase tracking-widest text-stone-500 md:flex-row md:px-10">
           <span>© {new Date().getFullYear()} {settings.siteName}. All rights reserved.</span>
           <SocialLinks
             socials={business.socials}

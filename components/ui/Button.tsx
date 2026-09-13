@@ -31,14 +31,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const { settings } = useTheme();
+    useTheme();
 
-    const radiusClass =
-      settings.buttonStyle === "Pill"
-        ? "rounded-full"
-        : settings.buttonStyle === "Square"
-        ? "rounded-none"
-        : "rounded-xl";
+    const radiusClass = "rounded-none";
 
     const sizeClasses = {
       sm: "px-3.5 py-1.5 text-xs font-medium gap-1.5",
@@ -48,11 +43,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantStyles: Record<string, string> = {
       primary:
-        "bg-[var(--theme-primary)] text-white hover:brightness-110 active:scale-[0.98] shadow-sm hover:shadow transition-all duration-200",
+        "bg-[var(--brand)] text-white hover:brightness-110 active:scale-[0.98] transition-all duration-200",
       accent:
-        "bg-[var(--theme-accent)] text-white hover:brightness-110 active:scale-[0.98] shadow-sm hover:shadow transition-all duration-200",
+        "bg-[var(--accent)] text-white hover:brightness-110 active:scale-[0.98] transition-all duration-200",
       outline:
-        "border-2 border-[var(--theme-primary)] text-[var(--theme-primary)] bg-transparent hover:bg-[var(--theme-primary)] hover:text-white transition-all duration-200",
+        "border-2 border-[var(--brand)] text-[var(--brand)] bg-transparent hover:bg-[var(--brand)] hover:text-white transition-all duration-200",
       secondary:
         "bg-stone-100 text-stone-900 hover:bg-stone-200 border border-stone-200/80 transition-all duration-200",
       ghost:
@@ -60,7 +55,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const baseClass = cn(
-      "inline-flex items-center justify-center font-medium leading-none cursor-pointer select-none transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-primary)] focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
+      "inline-flex items-center justify-center font-medium leading-none cursor-pointer select-none transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none disabled:cursor-not-allowed",
       radiusClass,
       sizeClasses[size],
       variantStyles[variant],

@@ -97,19 +97,19 @@ export function FeaturesSection(props: FeaturesSectionProps) {
   const title = (featuresTitle ?? "").trim();
 
   return (
-    <section className="w-full border-t hairline bg-transparent">
-      <div className="mx-auto max-w-[1600px]">
+    <section className="w-full bg-transparent">
+      <div className="w-full">
         {title ? (
           <h2
             style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-            className="font-display px-6 pt-8 text-center text-2xl leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl md:pt-10 md:text-4xl"
+            className="font-display px-6 pt-8 pb-10 text-center text-3xl font-medium leading-tight tracking-tight text-[var(--foreground)] sm:text-4xl md:pt-10 md:pb-14 md:text-5xl"
           >
             {title}
           </h2>
         ) : null}
         <div
           className={[
-            "grid grid-cols-1 divide-y hairline md:divide-y-0 md:divide-x",
+            "grid grid-cols-1",
             (isSkeleton ? 3 : commitments.length) === 1
               ? "md:grid-cols-1"
               : (isSkeleton ? 3 : commitments.length) === 2
@@ -124,9 +124,9 @@ export function FeaturesSection(props: FeaturesSectionProps) {
                   className="flex flex-col items-center px-6 py-8 text-center md:py-10"
                   aria-hidden
                 >
-                  <span className="mb-5 h-7 w-7 rounded-full bg-stone-300" />
-                  <div className="h-4 w-28 rounded bg-stone-300" />
-                  <div className="mt-2 h-3 w-40 max-w-xs rounded bg-stone-300/70" />
+                  <span className="mb-5 h-7 w-7 rounded-none bg-stone-300" />
+                  <div className="h-4 w-28 rounded-none bg-stone-300" />
+                  <div className="mt-2 h-3 w-40 max-w-xs rounded-none bg-stone-300/70" />
                 </div>
               ))
             : commitments.map((item, i) => (
@@ -143,14 +143,14 @@ export function FeaturesSection(props: FeaturesSectionProps) {
                   className="group flex flex-col items-center px-6 py-8 text-center transition-colors duration-300 hover:bg-stone-100/40 md:py-10"
                 >
                   {item.image ? (
-                    <span className="relative mb-5 h-10 w-10 overflow-hidden rounded-full">
+                    <span className="relative mb-5 h-10 w-10 overflow-hidden rounded-none">
                       <Image src={item.image} alt="" fill className="object-cover" />
                     </span>
                   ) : item.iconName ? (
                     <FeatureIcon
                       name={item.iconName}
                       strokeWidth={1.1}
-                      className="mb-5 h-7 w-7 text-stone-600 transition-colors group-hover:text-stone-900"
+                      className="mb-5 h-7 w-7 text-[var(--brand)]"
                     />
                   ) : null}
                   {item.title ? (

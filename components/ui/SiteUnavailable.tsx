@@ -24,7 +24,7 @@ export function SiteUnavailable({ host }: { host: string }) {
       </p>
 
       {isDev ? (
-        <div className="mt-2 max-w-md rounded-xl bg-stone-50 p-4 text-left">
+        <div className="mt-2 max-w-md rounded-none bg-stone-50 p-4 text-left">
           <p className="text-xs font-semibold tracking-wide text-stone-700 uppercase">
             Development checklist
           </p>

@@ -9,18 +9,14 @@ import { Minus, Plus, Play } from "lucide-react";
 import { Product } from "@/lib/theme-types";
 import { formatTaka } from "@/lib/utils";
 import { toEmbedUrl } from "@/lib/video";
+import { Accordion, AccordionItem } from "@/components/ui/Accordion";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductReviews } from "@/components/product/ProductReviews";
 import { useCart } from "@/components/cart/CartContext";
 import { trackAddToCart, trackViewContent } from "@/lib/tracking";
 import { Footer } from "@/components/footer/Footer";
-import { FeatureIcon } from "@/lib/icon-map";
 
 const defaultSizes = ["XS", "S", "M", "L", "XL"];
-
-// Neutral fallback for a feature added before icon-picking existed (or left
-// unset) — never a guess derived from the title text.
-const DEFAULT_FEATURE_ICON = "star";
 
 export function ProductDetailClient({
   initialProduct,
@@ -229,11 +225,11 @@ export function ProductDetailClient({
             </h1>
             <div className="mt-4 flex items-baseline gap-3 text-2xl font-medium text-[var(--foreground)] sm:text-3xl">
               <span>{formatTaka(displayPrice)}</span>
-              {product.originalPrice && (
-                <span className="text-base text-stone-400 line-through sm:text-lg">
+              {product.originalPrice ? (
+                <span className="text-2xl text-gray-400 line-through decoration-2 decoration-red-500 sm:text-3xl">
                   {formatTaka(product.originalPrice)}
                 </span>
-              )}
+              ) : null}
             </div>
           </div>
 
@@ -251,69 +247,73 @@ export function ProductDetailClient({
            * covers products saved before that existed. A color with its own
            * photo swaps the main stage image on click (cleared again by
            * picking a gallery thumbnail or a color with no photo). */}
-          {product.colors && product.colors.length > 0 ? (
-            <div>
-              <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.18em] font-medium text-stone-700">
-                <span>{product.colorLabel || "Color"}</span>
-                {selectedColor ? (
-                  <span className="text-stone-400">{selectedColor}</span>
-                ) : null}
-              </div>
-              <div className="mt-3 flex flex-wrap gap-2.5">
-                {product.colors.map((c) => (
-                  <button
-                    key={c.name}
-                    type="button"
-                    onClick={() => {
-                      setSelectedColor(c.name);
-                      setColorImage(c.image || null);
-                      setShowVideo(false);
-                    }}
-                    aria-label={c.name}
-                    title={c.name}
-                    className={`size-9 shrink-0 cursor-pointer rounded-full border transition-all ${selectedColor === c.name
-                        ? "ring-2 ring-[var(--brand)] ring-offset-2"
-                        : "border-stone-300 hover:ring-2 hover:ring-stone-300 hover:ring-offset-2"
+          <div
+            className={[
+              "grid gap-3",
+              product.colors && product.colors.length > 0
+                ? "sm:grid-cols-2"
+                : "",
+            ].join(" ")}
+          >
+            {product.colors && product.colors.length > 0 ? (
+              <div className="border hairline p-4">
+                <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-stone-700">
+                  {product.colorLabel || "Color"}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2.5">
+                  {product.colors.map((c) => (
+                    <button
+                      key={c.name}
+                      type="button"
+                      onClick={() => {
+                        setSelectedColor(c.name);
+                        setColorImage(c.image || null);
+                        setShowVideo(false);
+                      }}
+                      aria-label={c.name}
+                      title={c.name}
+                      className={`size-9 shrink-0 cursor-pointer rounded-full border transition-all ${
+                        selectedColor === c.name
+                          ? "ring-2 ring-[var(--brand)] ring-offset-2"
+                          : "border-stone-300 hover:ring-2 hover:ring-stone-300 hover:ring-offset-2"
                       }`}
-                    style={{ backgroundColor: c.hex }}
-                  />
+                      style={{ backgroundColor: c.hex }}
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            <div className="border hairline p-4">
+              <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-stone-700">
+                {product.sizeLabel || "Size"}
+              </div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {availableSizes.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => {
+                      setSelectedSize(s);
+                      const detail = product.sizeDetails?.find((d) => d.value === s);
+                      setSizeImage(detail?.image || null);
+                    }}
+                    className={`flex size-11 cursor-pointer items-center justify-center rounded-full border text-xs font-semibold uppercase tracking-wider transition-colors ${
+                      selectedSize === s
+                        ? "border-[var(--brand)] bg-[var(--brand)] text-[var(--background)]"
+                        : "hairline bg-transparent text-stone-850 hover:border-[var(--brand)]"
+                    }`}
+                  >
+                    {s}
+                  </button>
                 ))}
               </div>
-            </div>
-          ) : null}
-
-          {/* Size Selector — label is the merchant's own saved variant
-           * type name (e.g. "Size"), not a hardcoded heading; the old
-           * "Standard fit" subtitle was invented copy with nothing behind
-           * it, so it's gone rather than kept as a fake reassurance. */}
-          <div>
-            <div className="flex items-center text-[11px] uppercase tracking-[0.18em] font-medium text-stone-700">
-              <span>{product.sizeLabel || "Size"}</span>
-            </div>
-            <div className="mt-3 grid grid-cols-5 gap-2">
-              {availableSizes.map((s) => (
-                <button
-                  key={s}
-                  onClick={() => {
-                    setSelectedSize(s);
-                    const detail = product.sizeDetails?.find((d) => d.value === s);
-                    setSizeImage(detail?.image || null);
-                  }}
-                  className={`py-3.5 text-xs uppercase tracking-wider font-semibold border transition-colors cursor-pointer ${selectedSize === s
-                      ? "border-[var(--brand)] bg-[var(--brand)] text-[var(--background)]"
-                      : "hairline hover:border-[var(--brand)] bg-transparent text-stone-850"
-                    }`}
-                >
-                  {s}
-                </button>
-              ))}
             </div>
           </div>
 
           {/* Action Buttons: Add to Bag, Buy Now, Buy on WhatsApp */}
           <div className="space-y-3 pt-2">
             <div className="flex items-center gap-4">
-              <div className="inline-flex items-center rounded-[var(--theme-btn-radius)] border hairline bg-white overflow-hidden">
+              <div className="inline-flex items-center rounded-none border hairline bg-white overflow-hidden">
                 <button
                   onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                   className="p-4 text-[var(--foreground)] hover:bg-stone-200/50 transition-colors"
@@ -335,7 +335,7 @@ export function ProductDetailClient({
 
               <button
                 onClick={handleAddToCart}
-                className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-800 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-all hover:bg-[var(--brand)] hover:text-[var(--background)]"
+                className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-none border border-stone-800 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-all hover:bg-[var(--brand)] hover:text-[var(--background)]"
               >
                 <img src="/assets/bag.svg" alt="Bag Icon" className="w-4 h-4" />
                 Add to bag
@@ -345,14 +345,14 @@ export function ProductDetailClient({
             <div className="grid gap-3 sm:grid-cols-2">
               <button
                 onClick={handleBuyNow}
-                className="cursor-pointer rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
+                className="cursor-pointer rounded-none bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
               >
                 Buy Now
               </button>
 
               <button
                 onClick={handleWhatsAppBuy}
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-300 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--brand)]"
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-none border border-stone-300 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--brand)]"
               >
                 <img src="/assets/whatsapp.svg" alt="WhatsApp Icon" className="w-4.5 h-4.5" />
                 Order via WhatsApp
@@ -360,70 +360,37 @@ export function ProductDetailClient({
             </div>
           </div>
 
+          {(product.description || features.length > 0) ? (
+            <Accordion>
+              {product.description ? (
+                <AccordionItem title="Product Details">
+                  <div
+                    className="text-[15px] leading-relaxed font-light text-stone-650 md:text-[16px] [&_a]:text-[var(--brand)] [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-stone-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:my-4 [&_img]:rounded-none [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5"
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  />
+                </AccordionItem>
+              ) : null}
+              {features.map((feature, i) => (
+                <AccordionItem key={i} title={feature.title}>
+                  {feature.description ? (
+                    <p className="text-[14px] leading-relaxed font-light text-stone-500 md:text-[15px]">
+                      {feature.description}
+                    </p>
+                  ) : null}
+                </AccordionItem>
+              ))}
+            </Accordion>
+          ) : null}
+
         </motion.div>
       </section>
-
-      {/* Product Details Section (Clean, spacious, flat layout with zero lines) */}
-      {(product.description || features.length > 0) && (
-        <section className="mx-auto max-w-[1200px] px-6 md:px-10 py-12 md:py-16 w-full space-y-12 md:space-y-16">
-
-          {/* Product Details — the merchant's own rich description (with
-           * whatever formatting/images they added in the editor), not a
-           * hardcoded material/care checklist. */}
-          {product.description ? (
-            <div className="space-y-4 text-left">
-              <h3
-                style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-                className="font-display text-2xl md:text-3xl text-[var(--foreground)]"
-              >
-                Product Details
-              </h3>
-              <div
-                className="max-w-3xl text-[15px] leading-relaxed text-stone-650 font-light md:text-[16px] [&_a]:text-[var(--brand)] [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-stone-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:my-4 [&_img]:rounded-sm [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5"
-                dangerouslySetInnerHTML={{ __html: product.description }}
-              />
-            </div>
-          ) : null}
-
-          {/* Feature highlights — only what the merchant actually entered on
-           * the product (Add Product > Feature highlights). No fallback
-           * "commitments" copy when they haven't added any. */}
-          {features.length > 0 ? (
-            <div className="space-y-6 text-left pt-6">
-              <div className="grid gap-8 text-left md:grid-cols-3 md:gap-12">
-                {features.map((feature, i) => {
-                  const iconName = feature.icon || DEFAULT_FEATURE_ICON;
-                  return (
-                    <div key={i} className="space-y-3">
-                      <FeatureIcon
-                        name={iconName}
-                        strokeWidth={1.25}
-                        className="h-6 w-6 text-[var(--foreground)]"
-                      />
-                      <h4 className="text-sm font-semibold uppercase tracking-wider text-[var(--foreground)] md:text-base">
-                        {feature.title}
-                      </h4>
-                      {feature.description ? (
-                        <p className="text-[14px] font-light leading-relaxed text-stone-500 md:text-[15px]">
-                          {feature.description}
-                        </p>
-                      ) : null}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          ) : null}
-
-        </section>
-      )}
 
       {/* Product Reviews Section */}
       <ProductReviews averageRating={product.rating} totalReviews={product.reviewCount} />
 
       {/* Related Products */}
       {related.length > 0 && (
-        <section className="mx-auto max-w-[1200px] px-6 md:px-10 pt-4 pb-20 md:pb-24 w-full">
+        <section className="w-full px-6 pt-4 pb-20 md:px-10 md:pb-24">
           <div className="text-[11px] uppercase tracking-[0.24em] text-stone-500 font-medium">
             Also consider
           </div>

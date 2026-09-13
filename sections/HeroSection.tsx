@@ -2,19 +2,23 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { getContrastColor } from "@/lib/color-contrast";
+import { useTheme } from "@/lib/theme-context";
 
 interface HeroSectionProps {
-  /** 16:9 images. Required set — desktop always uses these. */
   heroImages: string[];
-  /** 1:1 images. Optional, mobile only; empty means mobile reuses heroImages. */
   heroImagesSquare: string[];
+  /** Fashion Classic's hero is image-only by design; heroTitle/heroBody/heroCta
+   * are still accepted for contract compatibility but intentionally unused here. */
+  heroTitle?: string;
+  heroBody?: string;
+  heroCta?: string;
+  primaryColor?: string;
 }
 
 const SLIDE_MS = 3000;
 
-/** Advances through `count` slides every SLIDE_MS. Returns 0 forever when
- * there's nothing to advance through, so a single image never animates. */
 function useSlideIndex(count: number) {
   const [index, setIndex] = useState(0);
 
@@ -24,12 +28,9 @@ function useSlideIndex(count: number) {
     return () => clearInterval(id);
   }, [count]);
 
-  // A shrinking gallery (merchant removed an image) would otherwise leave the
-  // index pointing past the end until the next tick.
-  return index < count ? index : 0;
+  return [index < count ? index : 0, setIndex] as const;
 }
 
-/** One aspect-locked, cross-fading stack of images. */
 function HeroSlides({
   images,
   className,
@@ -39,71 +40,85 @@ function HeroSlides({
   className: string;
   priority: boolean;
 }) {
-  const index = useSlideIndex(images.length);
+  const [index, setIndex] = useSlideIndex(images.length);
+  const { settings } = useTheme();
+  const arrowColor = getContrastColor(settings.primaryColor);
 
   return (
-    <div className={`relative w-full overflow-hidden ${className}`}>
+    <div className={`group relative w-full overflow-hidden ${className}`}>
       {images.map((src, i) => (
         <Image
           key={src}
           src={src}
           alt=""
           fill
-          // Only the first image of the visible set blocks paint; the rest are
-          // 3s away at minimum and shouldn't compete for initial bandwidth.
           priority={priority && i === 0}
           sizes="100vw"
           className={[
-            "object-cover object-center transition-opacity duration-700 ease-out",
+            "object-cover object-top transition-opacity duration-700 ease-out",
             i === index ? "opacity-100" : "opacity-0",
           ].join(" ")}
         />
       ))}
+      {images.length > 1 ? (
+        <>
+          <button
+            type="button"
+            aria-label="Previous slide"
+            onClick={() =>
+              setIndex((i) => (i - 1 + images.length) % images.length)
+            }
+            className="absolute top-1/2 left-4 z-10 flex size-14 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-[var(--brand)] shadow-[0_8px_24px_rgba(0,0,0,0.28)] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            style={{ color: arrowColor }}
+          >
+            <ChevronLeft className="size-7" strokeWidth={1.75} />
+          </button>
+          <button
+            type="button"
+            aria-label="Next slide"
+            onClick={() => setIndex((i) => (i + 1) % images.length)}
+            className="absolute top-1/2 right-4 z-10 flex size-14 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-[var(--brand)] shadow-[0_8px_24px_rgba(0,0,0,0.28)] opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+            style={{ color: arrowColor }}
+          >
+            <ChevronRight className="size-7" strokeWidth={1.75} />
+          </button>
+          <div className="absolute inset-x-0 bottom-4 z-10 flex items-center justify-center gap-1.5">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Go to slide ${i + 1}`}
+                onClick={() => setIndex(i)}
+                className={[
+                  "size-2",
+                  i === index ? "bg-[var(--brand)]" : "bg-white/70",
+                ].join(" ")}
+              />
+            ))}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }
 
-export function HeroSection({ heroImages, heroImagesSquare }: HeroSectionProps) {
+export function HeroSection({
+  heroImages,
+  heroImagesSquare,
+}: HeroSectionProps) {
   const wide = (heroImages ?? []).filter(Boolean);
-  // Square set is a mobile-only override. Without it, mobile shows the same
-  // 16:9 images rather than nothing.
   const square = (heroImagesSquare ?? []).filter(Boolean);
   const mobile = square.length > 0 ? square : wide;
 
-  // When no hero images are configured, render stylized skeleton placeholders
-  // matching the category card aesthetic with + icon, labels, and aspect ratio info.
   if (wide.length === 0) {
     return (
-      <section className="relative bg-[var(--background)]">
-        {/* Mobile: 1:1 skeleton */}
-        <div className="relative aspect-square w-full bg-stone-200/90 border border-stone-300/80 flex flex-col items-center justify-center p-6 text-center select-none md:hidden">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-stone-300/80 text-stone-600 mb-3">
+      <section className="relative w-full bg-[var(--background)]">
+        <div className="relative flex aspect-square w-full select-none flex-col items-center justify-center border border-stone-300/80 bg-stone-200/90 p-6 text-center md:aspect-auto md:h-[85vh] md:max-h-[780px] md:min-h-[320px]">
+          <div className="mb-3 flex h-12 w-12 items-center justify-center bg-stone-300/80 text-stone-600">
             <Plus className="h-6 w-6" strokeWidth={1.75} />
           </div>
-          <span
-            style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-            className="font-display text-lg text-stone-600 sm:text-xl"
-          >
-            Add hero image mobile
-          </span>
-          <span className="mt-1 text-xs uppercase tracking-[0.2em] text-stone-400">
-            1:1
-          </span>
-        </div>
-
-        {/* Desktop: 16:9 skeleton */}
-        <div className="relative hidden aspect-[21/9] w-full bg-stone-200/90 border border-stone-300/80 md:flex flex-col items-center justify-center p-8 text-center select-none">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-stone-300/80 text-stone-600 mb-3">
-            <Plus className="h-7 w-7" strokeWidth={1.75} />
-          </div>
-          <span
-            style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-            className="font-display text-xl text-stone-600 md:text-2xl"
-          >
-            Add hero image desktop
-          </span>
-          <span className="mt-1.5 text-xs uppercase tracking-[0.24em] text-stone-400">
-            16:9
+          <span className="font-display text-lg text-stone-600 sm:text-xl">
+            Add hero image
           </span>
         </div>
       </section>
@@ -111,10 +126,7 @@ export function HeroSection({ heroImages, heroImagesSquare }: HeroSectionProps) 
   }
 
   return (
-    <section className="relative bg-[var(--background)]">
-      {/* Two stacks rather than one responsive stack: the mobile set can have a
-       * different aspect ratio AND a different image count, so they can't share
-       * a slide index. */}
+    <section className="relative w-full bg-[var(--background)]">
       <HeroSlides
         images={mobile}
         className="aspect-square md:hidden"
@@ -122,7 +134,7 @@ export function HeroSection({ heroImages, heroImagesSquare }: HeroSectionProps) 
       />
       <HeroSlides
         images={wide}
-        className="hidden aspect-[21/9] md:block"
+        className="hidden h-[85vh] max-h-[780px] min-h-[320px] md:block"
         priority
       />
     </section>
