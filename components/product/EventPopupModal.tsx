@@ -73,7 +73,9 @@ export function EventPopupModal({ event }: { event: Event | null }) {
             transition={{ type: "spring", damping: 26, stiffness: 300 }}
             className={[
               "relative z-10 grid w-full overflow-hidden rounded-t-2xl border border-stone-300 bg-[var(--background)] md:rounded-none",
-              event.imageOnly ? "max-w-md grid-cols-1" : "max-w-xl grid-cols-1 md:grid-cols-2",
+              event.imageOnly
+                ? "max-w-md max-h-[90vh] grid-cols-1"
+                : "max-w-xl grid-cols-1 md:grid-cols-2",
             ].join(" ")}
           >
             <button
@@ -88,20 +90,20 @@ export function EventPopupModal({ event }: { event: Event | null }) {
             {event.imageOnly ? (
               // The image itself IS the event — text is already baked into
               // the artwork, so the whole thing is just a clickable banner.
+              // No forced aspect ratio/crop: the image's own dimensions
+              // decide the shape, whatever the merchant designed it as.
               <Link
                 href={`/shop?event=${encodeURIComponent(event.slug)}`}
                 onClick={close}
                 aria-label={event.name}
-                className="relative aspect-square w-full bg-stone-100"
+                className="block max-h-[90vh] w-full bg-stone-100"
               >
                 {event.image ? (
-                  <Image
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
                     src={event.image}
                     alt={event.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 448px"
-                    className="object-cover"
-                    priority
+                    className="block max-h-[90vh] w-full object-contain"
                   />
                 ) : null}
               </Link>
