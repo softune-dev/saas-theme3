@@ -228,6 +228,10 @@ export type Event = {
   ctaLabel: string;
   discountPercent: number;
   productIds: string[];
+  /** At most one event per site — the storefront popup modal, independent
+   * of whether this event is also featured in the homepage Events
+   * section. See migrations/062_event_popup.sql. */
+  isPopup: boolean;
 };
 
 // Public Backend API Contracts for SEO & Dynamic Site Fetching

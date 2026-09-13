@@ -62,6 +62,7 @@ type PublicEvent = {
   ctaLabel: string;
   discountPercent: number;
   productIds: string[];
+  isPopup: boolean;
 };
 
 function adaptEvent(e: PublicEvent): Event {
@@ -74,6 +75,7 @@ function adaptEvent(e: PublicEvent): Event {
     ctaLabel: e.ctaLabel,
     discountPercent: e.discountPercent,
     productIds: e.productIds,
+    isPopup: e.isPopup,
   };
 }
 
