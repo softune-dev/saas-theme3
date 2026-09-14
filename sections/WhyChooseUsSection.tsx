@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Award, CheckCircle2, HeartHandshake, Plus } from "lucide-react";
 
@@ -48,14 +47,11 @@ export function WhyChooseUsSection({
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="w-full"
           >
-            <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone-100">
-              <Image
-                src={image}
-                alt=""
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover"
-              />
+            {/* No forced aspect ratio/crop — the image renders at its own
+                natural proportions instead of being cropped to fit a box. */}
+            <div className="relative w-full overflow-hidden bg-stone-100">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={image} alt="" className="block h-auto w-full" />
             </div>
           </motion.div>
         ) : (
