@@ -54,6 +54,11 @@ export function ProductShowcaseSection({
 
               <div className="h-8 w-3/4 bg-stone-200 rounded-none sm:h-10" />
 
+              <div className="space-y-2">
+                <div className="h-4 w-full bg-stone-200 rounded-none" />
+                <div className="h-4 w-5/6 bg-stone-200 rounded-none" />
+              </div>
+
               <div>
                 <div className="h-3 w-12 bg-stone-200 rounded-none mb-3" />
                 <div className="grid grid-cols-5 gap-2">
@@ -66,8 +71,8 @@ export function ProductShowcaseSection({
                 </div>
               </div>
 
-              <div className="h-6 w-28 bg-stone-200 rounded-none" />
-
+              <div className="h-10 w-36 bg-stone-200 rounded-none" />
+              
               <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
                 <div className="h-12 flex-1 rounded-none border hairline bg-stone-100" />
                 <div className="h-12 flex-1 rounded-none bg-stone-200" />
@@ -120,12 +125,20 @@ export function ProductShowcaseSection({
               </div>
             ) : null}
 
-            <h2
-              style={{ fontFamily: '"Fraunces", Georgia, serif' }}
-              className="font-display text-2xl leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl md:text-4xl"
-            >
-              {product.name}
-            </h2>
+            <div className="space-y-3">
+              <h2
+                style={{ fontFamily: '"Fraunces", Georgia, serif' }}
+                className="font-display text-2xl leading-tight tracking-tight text-[var(--foreground)] sm:text-3xl md:text-4xl"
+              >
+                {product.name}
+              </h2>
+
+              {product.tagline || product.description ? (
+                <p className="text-sm sm:text-base leading-relaxed text-stone-600 font-sans line-clamp-3">
+                  {product.tagline || product.description}
+                </p>
+              ) : null}
+            </div>
 
             {sizes.length > 0 ? (
               <div>
@@ -151,10 +164,10 @@ export function ProductShowcaseSection({
               </div>
             ) : null}
 
-            <div className="flex items-baseline gap-3 text-lg font-medium text-[var(--foreground)]">
+            <div className="flex items-baseline gap-4 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[var(--foreground)]">
               <span>{formatTaka(product.price)}</span>
               {product.originalPrice ? (
-                <span className="text-sm text-stone-400 line-through">
+                <span className="text-lg sm:text-xl md:text-2xl text-stone-400 line-through font-normal">
                   {formatTaka(product.originalPrice)}
                 </span>
               ) : null}

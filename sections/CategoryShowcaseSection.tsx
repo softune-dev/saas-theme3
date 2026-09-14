@@ -107,7 +107,7 @@ function SkeletonCategoryProductSlider({
               className="min-w-0 flex-[0_0_70%] sm:flex-[0_0_42%] md:flex-[0_0_30%] lg:flex-[0_0_22%]"
             >
               <div className="relative w-full aspect-[3/4] overflow-hidden bg-stone-200/90 border border-stone-300/80 flex flex-col items-center justify-center p-4 text-center">
-                <div className="flex h-8 w-8 items-center justify-center rounded-none bg-stone-300/80 text-stone-600 mb-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-stone-300/80 text-stone-600 mb-2">
                   <Plus className="h-4 w-4" strokeWidth={1.75} />
                 </div>
                 <span

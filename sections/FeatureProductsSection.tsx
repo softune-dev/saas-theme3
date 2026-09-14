@@ -50,7 +50,7 @@ export function FeatureProductsSection({
             ? Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="w-full">
                   <div className="relative w-full aspect-[3/4] overflow-hidden bg-stone-200/90 border border-stone-300/80 flex flex-col items-center justify-center p-4 text-center select-none">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-none bg-stone-300/80 text-stone-600 mb-2">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-stone-300/80 text-stone-600 mb-2">
                       <Plus className="h-4 w-4" strokeWidth={2} />
                     </div>
                     <span

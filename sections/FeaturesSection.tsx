@@ -124,7 +124,7 @@ export function FeaturesSection(props: FeaturesSectionProps) {
                   className="flex flex-col items-center px-6 py-8 text-center md:py-10"
                   aria-hidden
                 >
-                  <span className="mb-5 h-7 w-7 rounded-none bg-stone-300" />
+                  <span className="mb-5 h-7 w-7 rounded-full bg-stone-300" />
                   <div className="h-4 w-28 rounded-none bg-stone-300" />
                   <div className="mt-2 h-3 w-40 max-w-xs rounded-none bg-stone-300/70" />
                 </div>

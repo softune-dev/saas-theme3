@@ -65,7 +65,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
 function SkeletonEventCard({ eventIndex }: { eventIndex: number }) {
   return (
     <div className="relative flex aspect-[4/5] w-full select-none flex-col items-center justify-center gap-2 border border-stone-300/80 bg-stone-200/90 p-4 text-center md:aspect-[16/10] sm:p-5">
-      <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-none bg-stone-300/80 text-stone-600">
+      <div className="mb-1 flex h-7 w-7 items-center justify-center rounded-full bg-stone-300/80 text-stone-600">
         <Plus className="h-3.5 w-3.5" strokeWidth={1.75} />
       </div>
       <span

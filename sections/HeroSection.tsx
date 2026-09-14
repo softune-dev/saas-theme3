@@ -117,7 +117,7 @@ export function HeroSection({
       return (
         <section className="relative w-full bg-[var(--background)]">
           <div className="relative flex aspect-square w-full select-none flex-col items-center justify-center border border-stone-300/80 bg-stone-200/90 p-6 text-center md:aspect-auto md:h-[85vh] md:max-h-[780px] md:min-h-[320px]">
-            <div className="mb-3 flex h-12 w-12 items-center justify-center bg-stone-300/80 text-stone-600">
+            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-stone-300/80 text-stone-600">
               <Plus className="h-6 w-6" strokeWidth={1.75} />
             </div>
             <span className="font-display text-lg text-stone-600 sm:text-xl">
@@ -152,7 +152,7 @@ export function HeroSection({
     return (
       <section className="relative w-full bg-[var(--background)]">
         <div className="relative flex aspect-square w-full select-none flex-col items-center justify-center border border-stone-300/80 bg-stone-200/90 p-6 text-center md:aspect-auto md:h-[85vh] md:max-h-[780px] md:min-h-[320px]">
-          <div className="mb-3 flex h-12 w-12 items-center justify-center bg-stone-300/80 text-stone-600">
+          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-stone-300/80 text-stone-600">
             <Plus className="h-6 w-6" strokeWidth={1.75} />
           </div>
           <span className="font-display text-lg text-stone-600 sm:text-xl">

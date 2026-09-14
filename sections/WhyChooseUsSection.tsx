@@ -60,7 +60,7 @@ export function WhyChooseUsSection({
           </motion.div>
         ) : (
           <div className="relative flex aspect-[4/3] w-full select-none flex-col items-center justify-center overflow-hidden border border-stone-300/80 bg-stone-200/90 p-6 text-center">
-            <div className="mb-3 flex h-10 w-10 items-center justify-center bg-stone-300/80 text-stone-600">
+            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-stone-300/80 text-stone-600">
               <Plus className="h-5 w-5" strokeWidth={1.75} />
             </div>
             <span

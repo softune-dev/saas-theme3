@@ -88,13 +88,13 @@ export function Header({
         </div>
 
         <nav
-          className="pointer-events-none absolute inset-x-0 hidden items-center justify-center lg:flex"
+          className="hidden flex-1 min-w-0 items-center justify-center px-4 md:px-6 lg:flex"
           aria-label="Primary"
         >
           {items.length > 0 ? (
             <div
               ref={trackRef}
-              className="pointer-events-auto relative mx-28 min-w-0 max-w-[calc(100%-14rem)]"
+              className="relative w-full min-w-0 max-w-full"
             >
               <div
                 ref={overflows ? emblaRef : undefined}
