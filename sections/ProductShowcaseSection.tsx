@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Product } from "@/lib/theme-types";
@@ -73,7 +72,7 @@ export function ProductShowcaseSection({
 
               <div className="h-10 w-36 bg-stone-200 rounded-none" />
               
-              <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
+              <div className="flex flex-row gap-2.5 pt-1 sm:gap-3">
                 <div className="h-12 flex-1 rounded-none border hairline bg-stone-100" />
                 <div className="h-12 flex-1 rounded-none bg-stone-200" />
               </div>
@@ -104,16 +103,13 @@ export function ProductShowcaseSection({
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="grid w-full grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12"
         >
-          {/* Image — top on mobile, left on desktop */}
-          <div className="relative aspect-square w-full overflow-hidden bg-stone-200">
+          {/* Image — top on mobile, left on desktop. No forced aspect
+              ratio/crop — renders at the uploaded image's own natural
+              proportions instead of being cropped to fit a box. */}
+          <div className="relative w-full overflow-hidden bg-stone-200">
             {image ? (
-              <Image
-                src={image}
-                alt={product.name}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-center"
-              />
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={image} alt={product.name} className="block h-auto w-full" />
             ) : null}
           </div>
 
@@ -173,20 +169,20 @@ export function ProductShowcaseSection({
               ) : null}
             </div>
 
-            <div className="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
+            <div className="flex flex-row gap-2.5 pt-1 sm:gap-3">
               <button
                 type="button"
                 onClick={handleAddToBag}
                 disabled={!canAdd}
-                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-800 py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--foreground)] uppercase transition-all hover:bg-[var(--brand)] hover:text-[var(--background)] disabled:cursor-not-allowed disabled:opacity-40"
+                className="inline-flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-800 px-2 py-4 text-[11px] font-semibold tracking-[0.15em] text-[var(--foreground)] uppercase transition-all hover:bg-[var(--brand)] hover:text-[var(--background)] disabled:cursor-not-allowed disabled:opacity-40 sm:px-4 sm:text-[12px] sm:tracking-[0.24em]"
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/assets/bag.svg" alt="" className="h-4 w-4" />
+                <img src="/assets/bag.svg" alt="" className="h-4 w-4 shrink-0" />
                 Add to bag
               </button>
               <Link
                 href={`/shop/${product.slug}`}
-                className="inline-flex flex-1 items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-[12px] font-semibold tracking-[0.24em] text-[var(--background)] uppercase transition-opacity hover:opacity-90"
+                className="inline-flex flex-1 items-center justify-center rounded-[var(--theme-btn-radius)] bg-[var(--brand)] px-2 py-4 text-[11px] font-semibold tracking-[0.15em] text-[var(--background)] uppercase transition-opacity hover:opacity-90 sm:px-4 sm:text-[12px] sm:tracking-[0.24em]"
               >
                 View details
               </Link>
