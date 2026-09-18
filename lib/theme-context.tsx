@@ -103,19 +103,24 @@ export function ThemeProvider({
     // else is a literal Google Font family name picked from the editor's
     // full-library search — load it at runtime and apply the family name
     // directly. Unrecognised/empty keeps whatever globals.css defaults to.
+    // var(--font-bengali) (Noto Sans Bengali, loaded in layout.tsx) is
+    // appended to every override below — otherwise picking any body/display
+    // font here would silently drop Bangla glyph coverage the moment a
+    // merchant customizes it, since this fully replaces --font-sans/
+    // --font-display rather than adding to globals.css's own fallback.
     const displayVar = DISPLAY_FONTS[settings.displayFont ?? ""];
     if (displayVar) {
-      root.style.setProperty("--font-display", displayVar, "important");
+      root.style.setProperty("--font-display", `${displayVar}, var(--font-bengali)`, "important");
     } else if (settings.displayFont) {
       ensureGoogleFont(settings.displayFont);
-      root.style.setProperty("--font-display", `"${settings.displayFont}", serif`, "important");
+      root.style.setProperty("--font-display", `"${settings.displayFont}", var(--font-bengali), serif`, "important");
     }
     const bodyVar = BODY_FONTS[settings.bodyFont ?? ""];
     if (bodyVar) {
-      root.style.setProperty("--font-sans", bodyVar, "important");
+      root.style.setProperty("--font-sans", `${bodyVar}, var(--font-bengali)`, "important");
     } else if (settings.bodyFont) {
       ensureGoogleFont(settings.bodyFont);
-      root.style.setProperty("--font-sans", `"${settings.bodyFont}", sans-serif`, "important");
+      root.style.setProperty("--font-sans", `"${settings.bodyFont}", var(--font-bengali), sans-serif`, "important");
     }
   }, [
     settings.primaryColor,

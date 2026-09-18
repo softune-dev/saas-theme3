@@ -14,6 +14,7 @@ import {
   Libre_Baskerville,
   Manrope,
   Newsreader,
+  Noto_Sans_Bengali,
   Nunito_Sans,
   Outfit,
   Playfair_Display,
@@ -252,6 +253,17 @@ const nunitoSans = Nunito_Sans({
   preload: false,
 });
 
+// Bangla fallback for every latin display/body font above — Google_Sans
+// (the dashboard's own choice) doesn't exist in this Next.js version's font
+// catalog, so we standardize on Noto Sans Bengali, same as bazaar.
+const notoSansBengali = Noto_Sans_Bengali({
+  subsets: ["bengali"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-bengali",
+  display: "swap",
+  preload: false,
+});
+
 const fontVariables = [
   fraunces.variable,
   playfair.variable,
@@ -276,6 +288,7 @@ const fontVariables = [
   urbanist.variable,
   figtree.variable,
   dmSans.variable,
+  notoSansBengali.variable,
   nunitoSans.variable,
 ].join(" ");
 

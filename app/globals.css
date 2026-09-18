@@ -6,8 +6,8 @@
    * color tokens below. next/font self-hosts every candidate (see
    * app/layout.tsx), so there is no separate @font-face import to keep in
    * sync here. */
-  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), var(--font-bengali), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), var(--font-bengali), ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
