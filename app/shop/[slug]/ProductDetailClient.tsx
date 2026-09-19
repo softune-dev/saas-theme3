@@ -16,8 +16,6 @@ import { useCart } from "@/components/cart/CartContext";
 import { trackAddToCart, trackViewContent } from "@/lib/tracking";
 import { Footer } from "@/components/footer/Footer";
 
-const defaultSizes = ["XS", "S", "M", "L", "XL"];
-
 export function ProductDetailClient({
   initialProduct,
   relatedProducts,
@@ -40,8 +38,8 @@ export function ProductDetailClient({
 
   const [activeImage, setActiveImage] = useState<number>(0);
   const [showVideo, setShowVideo] = useState<boolean>(false);
-  const [selectedSize, setSelectedSize] = useState<string>(
-    product.sizes?.[0] || "M"
+  const [selectedSize, setSelectedSize] = useState<string | undefined>(
+    product.sizes?.[0]
   );
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     product.colors?.[0]?.name
@@ -80,13 +78,13 @@ export function ProductDetailClient({
     const phoneNumber = "8801700000000"; // Default phone number
     const url = typeof window !== "undefined" ? window.location.href : "";
     const colorLine = selectedColor ? `\nColor: ${selectedColor}` : "";
-    const message = `Hello, I'd like to order: *${product.name}*\nSize: ${selectedSize}${colorLine}\nQuantity: ${quantity}\nLink: ${url}`;
+    const sizeLine = selectedSize ? `\nSize: ${selectedSize}` : "";
+    const message = `Hello, I'd like to order: *${product.name}*${sizeLine}${colorLine}\nQuantity: ${quantity}\nLink: ${url}`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
 
-  const availableSizes =
-    product.sizes && product.sizes.length > 0 ? product.sizes : defaultSizes;
+  const availableSizes = product.sizes ?? [];
 
   const related = relatedProducts.filter((p) => p.id !== product.id).slice(0, 3);
 
@@ -284,30 +282,32 @@ export function ProductDetailClient({
               </div>
             ) : null}
 
-            <div className="border hairline p-4">
-              <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-stone-700">
-                {product.sizeLabel || "Size"}
+            {availableSizes.length > 0 ? (
+              <div className="border hairline p-4">
+                <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-stone-700">
+                  {product.sizeLabel || "Size"}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {availableSizes.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => {
+                        setSelectedSize(s);
+                        const detail = product.sizeDetails?.find((d) => d.value === s);
+                        setSizeImage(detail?.image || null);
+                      }}
+                      className={`flex size-11 cursor-pointer items-center justify-center rounded-full border text-xs font-semibold uppercase tracking-wider transition-colors ${
+                        selectedSize === s
+                          ? "border-[var(--brand)] bg-[var(--brand)] text-[var(--background)]"
+                          : "hairline bg-transparent text-stone-850 hover:border-[var(--brand)]"
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {availableSizes.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => {
-                      setSelectedSize(s);
-                      const detail = product.sizeDetails?.find((d) => d.value === s);
-                      setSizeImage(detail?.image || null);
-                    }}
-                    className={`flex size-11 cursor-pointer items-center justify-center rounded-full border text-xs font-semibold uppercase tracking-wider transition-colors ${
-                      selectedSize === s
-                        ? "border-[var(--brand)] bg-[var(--brand)] text-[var(--background)]"
-                        : "hairline bg-transparent text-stone-850 hover:border-[var(--brand)]"
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            </div>
+            ) : null}
           </div>
 
           {/* Action Buttons: Add to Bag, Buy Now, Buy on WhatsApp */}
