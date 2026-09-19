@@ -39,12 +39,8 @@ export function ProductDetailClient({
 
   const [activeImage, setActiveImage] = useState<number>(0);
   const [showVideo, setShowVideo] = useState<boolean>(false);
-  const [selectedSize, setSelectedSize] = useState<string | undefined>(
-    product.sizes?.[0]
-  );
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    product.colors?.[0]?.name
-  );
+  const [selectedSize, setSelectedSize] = useState<string | undefined>(undefined);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
   // A color/size value with its own photo (dashboard variant editor)
   // overrides the main stage — set only on an explicit selection, cleared
   // the moment a gallery thumbnail (or a value with no photo) is picked, so
