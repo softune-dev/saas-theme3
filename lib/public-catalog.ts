@@ -123,7 +123,14 @@ function stripHtml(html: string, maxLength = 160): string {
  * app/products.py's validate_variants. A real merchant-picked hex (set via
  * the dashboard's color wheel) is used when present; colorNameToHex only
  * covers products saved before that existed, so an old product doesn't
- * suddenly render every swatch grey. */
+ * suddenly render every swatch grey.
+ *
+ * fallbackSize (matches bazaar's own adaptProduct exactly): a merchant's
+ * non-color variant isn't always literally named "Size" — a skincare
+ * product's real variant might be "Volume" or "ML". Matching only the
+ * literal string "size" made those products' real variant data vanish
+ * entirely (no size picker at all) instead of showing the merchant's
+ * actual saved values under their own label. */
 function adaptProduct(p: PublicProduct): Product {
   const variants = p.attributes?.variants as
     | {
@@ -136,9 +143,12 @@ function adaptProduct(p: PublicProduct): Product {
   const colorVariant =
     variants?.find((v) => v.isColor) ??
     variants?.find((v) => v.type.trim().toLowerCase() === "color");
-  const sizes = sizeVariant?.values.map((v) => v.value) ?? [];
-  const sizeLabel = sizeVariant?.type;
-  const sizeDetails = sizeVariant?.values.map((v) => ({
+  const fallbackSize =
+    sizeVariant ??
+    variants?.find((v) => v !== colorVariant && v.type.trim().toLowerCase() !== "color");
+  const sizes = fallbackSize?.values.map((v) => v.value) ?? [];
+  const sizeLabel = fallbackSize?.type;
+  const sizeDetails = fallbackSize?.values.map((v) => ({
     value: v.value,
     image: v.image,
     priceDeltaCents: v.priceDeltaCents,
