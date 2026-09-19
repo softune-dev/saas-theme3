@@ -282,10 +282,18 @@ export function ProductDetailClient({
               </div>
             ) : null}
 
+            {/* min-w (not a fixed size) so a longer value like "100 ML"
+             * grows into a pill instead of being forced into a circle and
+             * wrapping to two lines — matches bazaar's own size picker. */}
             {availableSizes.length > 0 ? (
-              <div className="border hairline p-4">
+              <div>
                 <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-stone-700">
                   {product.sizeLabel || "Size"}
+                  {selectedSize ? (
+                    <span className="ml-2 normal-case tracking-normal text-[var(--foreground)]">
+                      {selectedSize}
+                    </span>
+                  ) : null}
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {availableSizes.map((s) => (
@@ -296,7 +304,7 @@ export function ProductDetailClient({
                         const detail = product.sizeDetails?.find((d) => d.value === s);
                         setSizeImage(detail?.image || null);
                       }}
-                      className={`flex size-11 cursor-pointer items-center justify-center rounded-full border text-xs font-semibold uppercase tracking-wider transition-colors ${
+                      className={`min-w-11 cursor-pointer whitespace-nowrap rounded-full border px-4 py-2.5 text-xs font-semibold uppercase tracking-wider transition-colors ${
                         selectedSize === s
                           ? "border-[var(--brand)] bg-[var(--brand)] text-[var(--background)]"
                           : "hairline bg-transparent text-stone-850 hover:border-[var(--brand)]"
