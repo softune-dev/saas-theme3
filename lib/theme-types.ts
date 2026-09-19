@@ -151,6 +151,24 @@ export type ProductFeatureHighlight = {
   icon?: string | null;
 };
 
+/** Mirrors the dashboard's ProductVariantCombination type exactly (lib/
+ * api/commerce.ts) and app/products.py's validated shape (backend) — one
+ * real purchasable option combination, with its own price/compare-at/
+ * stock/photo. `key` is a stable "Type:Value|Type:Value" join, types
+ * sorted alphabetically — what a customer's selection resolves against,
+ * and what gets sent back as PublicOrderItemIn.variant_key at checkout. */
+export type ProductVariantCombination = {
+  key: string;
+  optionValues: Record<string, string>;
+  sku?: string;
+  priceCents?: number;
+  compareAtCents?: number;
+  stock: number;
+  trackStock: boolean;
+  image?: string;
+  isActive: boolean;
+};
+
 export type Product = {
   id: string;
   slug: string;
@@ -204,6 +222,14 @@ export type Product = {
    * when set, is added to the base price. */
   colors?: { name: string; hex: string; image?: string; priceDeltaCents?: number }[];
   colorLabel?: string;
+  /** Every real, purchasable option combination (e.g. "Color: Navy, Size:
+   * M") with its OWN price/compare-at/stock/photo — the actual identity of
+   * what a customer buys, not the independent sizes/colors lists above
+   * (those stay as display-only labels). Empty for a product with no
+   * options at all, which behaves exactly as before: price/inStock/
+   * stockCount/images above are the source of truth. See app/products.py's
+   * module docstring (backend) for the authoritative shape. */
+  variantCombinations?: ProductVariantCombination[];
   /** True = no delivery charge for this product, ever. False + empty
    * deliveryCharges = the merchant hasn't set delivery pricing yet — treat
    * as "unknown", not as free. */

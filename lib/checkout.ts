@@ -19,6 +19,11 @@ const API_BASE_URL =
 export type PublicOrderItemIn = {
   product_id: string;
   quantity: number;
+  /** Matches one of the product's variantCombinations[].key (see
+   * lib/variant-combo.ts's resolveVariantCombination) — required by
+   * app/api/public.py whenever the product actually has combinations;
+   * omitted entirely for a plain product, same as before this existed. */
+  variant_key?: string;
 };
 
 export type CheckoutCustomer = {

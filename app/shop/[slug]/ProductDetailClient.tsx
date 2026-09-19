@@ -15,6 +15,7 @@ import { ProductReviews } from "@/components/product/ProductReviews";
 import { useCart } from "@/components/cart/CartContext";
 import { trackAddToCart, trackViewContent } from "@/lib/tracking";
 import { Footer } from "@/components/footer/Footer";
+import { resolveVariantCombination } from "@/lib/variant-combo";
 
 export function ProductDetailClient({
   initialProduct,
@@ -53,9 +54,13 @@ export function ProductDetailClient({
   const [sizeImage, setSizeImage] = useState<string | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
 
-  // Size/color values can each carry their own price override (dashboard's
-  // "affects price" variant toggle) — both are added on top of the base
-  // price, same as the real order total the backend computes.
+  // A product with real combinations (dashboard's variant editor) prices,
+  // stocks, and photographs each Size×Color pair independently — resolve
+  // the customer's current pick to its one real combination and use ITS
+  // numbers, not the legacy per-value price-delta math below (which stays
+  // only for a product saved before combinations existed).
+  const resolvedCombo = resolveVariantCombination(product, selectedSize, selectedColor);
+
   const selectedSizeDetail = product.sizeDetails?.find(
     (d) => d.value === selectedSize,
   );
@@ -65,7 +70,21 @@ export function ProductDetailClient({
   const variantDeltaCents =
     (selectedSizeDetail?.priceDeltaCents ?? 0) +
     (selectedColorDetail?.priceDeltaCents ?? 0);
-  const displayPrice = product.price + variantDeltaCents / 100;
+  const displayPrice = resolvedCombo
+    ? (resolvedCombo.priceCents ?? product.price * 100) / 100
+    : product.price + variantDeltaCents / 100;
+  const displayOriginalPrice = resolvedCombo
+    ? resolvedCombo.compareAtCents !== undefined
+      ? resolvedCombo.compareAtCents / 100
+      : undefined
+    : product.originalPrice;
+  // A combination genuinely out of stock (not just the whole product) has
+  // to stop the customer right here — same reasoning bazaar's own
+  // product-level inStock gate already uses, just resolved per-combo now.
+  const comboOutOfStock =
+    !!resolvedCombo && resolvedCombo.trackStock && resolvedCombo.stock <= 0;
+  const hasUnresolvedCombo =
+    (product.variantCombinations?.length ?? 0) > 0 && !resolvedCombo;
 
   const handleBuyNow = () => {
     addItem(product, quantity, selectedSize, selectedColor);
@@ -143,9 +162,9 @@ export function ProductDetailClient({
                   className="absolute inset-0 h-full w-full object-cover object-center"
                 />
               )
-            ) : colorImage || sizeImage || product.images[activeImage] || product.images[0] ? (
+            ) : resolvedCombo?.image || colorImage || sizeImage || product.images[activeImage] || product.images[0] ? (
               <Image
-                src={colorImage || sizeImage || product.images[activeImage] || product.images[0]}
+                src={resolvedCombo?.image || colorImage || sizeImage || product.images[activeImage] || product.images[0]}
                 alt={product.name}
                 fill
                 priority
@@ -223,12 +242,15 @@ export function ProductDetailClient({
             </h1>
             <div className="mt-4 flex items-baseline gap-3 text-2xl font-medium text-[var(--foreground)] sm:text-3xl">
               <span>{formatTaka(displayPrice)}</span>
-              {product.originalPrice ? (
+              {displayOriginalPrice ? (
                 <span className="text-2xl text-gray-400 line-through decoration-2 decoration-red-500 sm:text-3xl">
-                  {formatTaka(product.originalPrice)}
+                  {formatTaka(displayOriginalPrice)}
                 </span>
               ) : null}
             </div>
+            {comboOutOfStock ? (
+              <p className="mt-2 text-sm font-semibold text-red-500">Out of stock</p>
+            ) : null}
           </div>
 
           {/* The short blurb, not the full rich description — that lives
@@ -343,24 +365,27 @@ export function ProductDetailClient({
 
               <button
                 onClick={handleAddToCart}
-                className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-800 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-all hover:bg-[var(--brand)] hover:text-[var(--background)]"
+                disabled={comboOutOfStock || hasUnresolvedCombo}
+                className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-800 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-all hover:bg-[var(--brand)] hover:text-[var(--background)] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white disabled:hover:text-[var(--foreground)]"
               >
                 <img src="/assets/bag.svg" alt="Bag Icon" className="w-4 h-4" />
-                Add to bag
+                {comboOutOfStock ? "Out of stock" : "Add to bag"}
               </button>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2">
               <button
                 onClick={handleBuyNow}
-                className="cursor-pointer rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90"
+                disabled={comboOutOfStock || hasUnresolvedCombo}
+                className="cursor-pointer rounded-[var(--theme-btn-radius)] bg-[var(--brand)] py-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Buy Now
               </button>
 
               <button
                 onClick={handleWhatsAppBuy}
-                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-300 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--brand)]"
+                disabled={comboOutOfStock || hasUnresolvedCombo}
+                className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-300 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--brand)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <img src="/assets/whatsapp.svg" alt="WhatsApp Icon" className="w-4.5 h-4.5" />
                 Order via WhatsApp

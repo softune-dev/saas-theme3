@@ -160,6 +160,12 @@ function adaptProduct(p: PublicProduct): Product {
     priceDeltaCents: v.priceDeltaCents,
   }));
   const colorLabel = colorVariant?.type;
+  // Passed through as-is — already validated+normalized server-side
+  // (app/products.py's validate_combinations), same trust boundary as
+  // every other field read straight off the public API response here.
+  const variantCombinations = p.attributes?.combinations as
+    | Product["variantCombinations"]
+    | undefined;
   const discountPercent =
     p.compareAtPrice && p.compareAtPrice > p.price
       ? Math.round((1 - p.price / p.compareAtPrice) * 100)
@@ -199,6 +205,7 @@ function adaptProduct(p: PublicProduct): Product {
     sizeDetails,
     colors,
     colorLabel,
+    variantCombinations,
   };
 }
 
