@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { useCart } from "@/components/cart/CartContext";
 import { useToast } from "@/components/ui/Toast";
+import { resolveVariantCombination } from "@/lib/variant-combo";
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -25,12 +26,8 @@ export function QuickViewModal({
   const { addItem } = useCart();
   const { showToast } = useToast();
   const [selectedImage, setSelectedImage] = useState<number>(0);
-  const [selectedSize, setSelectedSize] = useState<string | undefined>(
-    product?.sizes?.[0]
-  );
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(
-    product?.colors?.[0]?.name
-  );
+  const [selectedSize, setSelectedSize] = useState<string | undefined>(undefined);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
   const [quantity, setQuantity] = useState<number>(1);
   const [mounted, setMounted] = useState(false);
 
@@ -41,8 +38,8 @@ export function QuickViewModal({
   useEffect(() => {
     if (!isOpen || !product) return;
     setSelectedImage(0);
-    setSelectedSize(product.sizes?.[0]);
-    setSelectedColor(product.colors?.[0]?.name);
+    setSelectedSize(undefined);
+    setSelectedColor(undefined);
     setQuantity(1);
   }, [isOpen, product]);
 
@@ -57,6 +54,20 @@ export function QuickViewModal({
 
   if (!isOpen || !product || !mounted) return null;
 
+  const resolvedCombo = resolveVariantCombination(product, selectedSize, selectedColor);
+  const displayPrice = resolvedCombo
+    ? (resolvedCombo.priceCents ?? product.price * 100) / 100
+    : product.price;
+  const displayOriginalPrice = resolvedCombo
+    ? resolvedCombo.compareAtCents !== undefined
+      ? resolvedCombo.compareAtCents / 100
+      : undefined
+    : product.originalPrice;
+  const comboOutOfStock =
+    !!resolvedCombo && resolvedCombo.trackStock && resolvedCombo.stock <= 0;
+  const hasUnresolvedCombo =
+    (product.variantCombinations?.length ?? 0) > 0 && !resolvedCombo;
+
   const handleAddToCart = () => {
     addItem(product, quantity, selectedSize, selectedColor);
     showToast(
@@ -67,9 +78,9 @@ export function QuickViewModal({
     onClose();
   };
 
-  const discount = product.originalPrice
+  const discount = displayOriginalPrice
     ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100
+        ((displayOriginalPrice - displayPrice) / displayOriginalPrice) * 100
       )
     : 0;
 
@@ -150,11 +161,11 @@ export function QuickViewModal({
 
             <div className="mb-3 flex items-baseline gap-2 md:mb-4 md:gap-3">
               <span className="text-lg font-semibold text-[var(--ink)] md:text-2xl">
-                {formatTaka(product.price)}
+                {formatTaka(displayPrice)}
               </span>
-              {product.originalPrice && (
+              {displayOriginalPrice && (
                 <span className="text-sm font-semibold text-[var(--brand)] line-through md:text-sm">
-                  {formatTaka(product.originalPrice)}
+                  {formatTaka(displayOriginalPrice)}
                 </span>
               )}
               {discount > 0 && (
@@ -175,7 +186,10 @@ export function QuickViewModal({
             {product.colors && product.colors.length > 0 && (
               <div className="mb-3 md:mb-4">
                 <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-wider text-[var(--ink)] md:mb-2 md:text-xs">
-                  {product.colorLabel || "Color"}: <span className="font-normal text-stone-600">{selectedColor || product.colors[0].name}</span>
+                  {product.colorLabel || "Color"}
+                  {selectedColor ? (
+                    <span className="font-normal text-stone-600">: {selectedColor}</span>
+                  ) : null}
                 </label>
                 <div className="flex gap-2">
                   {product.colors.map((c) => (
@@ -251,11 +265,16 @@ export function QuickViewModal({
           <div className="shrink-0 border-t border-stone-200 p-3 md:p-4 md:px-8">
             <Button
               onClick={handleAddToCart}
+              disabled={comboOutOfStock || hasUnresolvedCombo}
               className="w-full text-sm md:text-base"
               size="md"
               leftIcon={<ShoppingBag className="h-4 w-4 md:h-5 md:w-5" />}
             >
-              Add to Bag • {formatTaka(product.price * quantity)}
+              {hasUnresolvedCombo
+                ? "Select an option"
+                : comboOutOfStock
+                  ? "Out of stock"
+                  : `Add to Bag • ${formatTaka(displayPrice * quantity)}`}
             </Button>
           </div>
         </div>
