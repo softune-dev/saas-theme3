@@ -394,7 +394,7 @@ export function ProductDetailClient({
               {product.description ? (
                 <AccordionItem title="Product Details">
                   <div
-                    className="text-[15px] leading-relaxed font-light text-stone-650 md:text-[16px] [&_a]:text-[var(--brand)] [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-stone-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:my-4 [&_img]:rounded-none [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5 [&_img[src*='s.w.org']]:my-0 [&_img[src*='s.w.org']]:mr-1.5 [&_img[src*='s.w.org']]:inline-block [&_img[src*='s.w.org']]:h-4 [&_img[src*='s.w.org']]:w-4 [&_img[src*='s.w.org']]:align-text-bottom [&_li:has(p:empty)]:hidden"
+                    className="text-[15px] leading-relaxed font-light text-stone-650 md:text-[16px] [&_a]:text-[var(--brand)] [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-stone-300 [&_blockquote]:pl-4 [&_blockquote]:italic [&_img]:my-4 [&_img]:rounded-none [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5 [&_img[src*='s.w.org']]:float-left [&_img[src*='s.w.org']]:clear-left [&_img[src*='s.w.org']]:mt-0.5 [&_img[src*='s.w.org']]:mr-1.5 [&_img[src*='s.w.org']]:mb-1 [&_img[src*='s.w.org']]:h-4 [&_img[src*='s.w.org']]:w-4 [&_img[src*='s.w.org']]:rounded-none [&_li:has(p:empty)]:hidden"
                     dangerouslySetInnerHTML={{ __html: product.description }}
                   />
                 </AccordionItem>
