@@ -147,6 +147,10 @@ export function HeroSection({
   const wide = (heroImages ?? []).filter(Boolean);
   const square = (heroImagesSquare ?? []).filter(Boolean);
   const mobile = square.length > 0 ? square : wide;
+  // No mobile (1:1) hero uploaded: small screens show the desktop image
+  // instead, at its own locked 16:9 shape, smaller. It is never cropped
+  // into a square. With a mobile image the frame stays 1:1.
+  const mobileAspect = square.length > 0 ? "aspect-square" : "aspect-video";
 
   if (wide.length === 0) {
     return (
@@ -167,7 +171,7 @@ export function HeroSection({
     <section className="relative w-full bg-[var(--background)]">
       <HeroSlides
         images={mobile}
-        className="aspect-square md:hidden"
+        className={`${mobileAspect} md:hidden`}
         priority
       />
       <HeroSlides

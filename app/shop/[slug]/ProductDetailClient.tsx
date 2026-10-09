@@ -130,7 +130,7 @@ export function ProductDetailClient({
       </div>
 
       {/* Main Product Section */}
-      <section className="mx-auto max-w-[1600px] px-6 md:px-10 mt-8 grid md:grid-cols-2 gap-10 md:gap-16 w-full flex-1">
+      <section className="mx-auto max-w-[1600px] px-6 md:px-10 mt-8 grid grid-cols-1 md:grid-cols-2 [&>*]:min-w-0 gap-10 md:gap-16 w-full flex-1">
 
         {/* Left Column: Image Stage */}
         <div className="space-y-4">
@@ -173,7 +173,7 @@ export function ProductDetailClient({
           {/* Multiple Thumbnails Selector — video (if any) sits alongside
            * the images, same size/style, so it reads as just another slide. */}
           {product.images.length > 1 || product.video ? (
-            <div className="flex gap-3 overflow-x-auto pb-2">
+            <div className="flex w-full max-w-full gap-3 overflow-x-auto pb-2">
               {product.images.map((img, idx) => (
                 <button
                   key={idx}
