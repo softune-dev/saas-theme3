@@ -56,7 +56,7 @@ import type { SiteEditorSettings } from "@/lib/theme-types";
 // eagerly fetching five font families nobody asked for on every page load.
 const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: "variable",
   style: ["normal", "italic"],
   variable: "--font-fraunces",
   display: "swap",
@@ -64,7 +64,7 @@ const fraunces = Fraunces({
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "variable",
   style: ["normal", "italic"],
   variable: "--font-playfair",
   display: "swap",
@@ -73,7 +73,7 @@ const playfair = Playfair_Display({
 
 const cormorant = Cormorant({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "variable",
   style: ["normal", "italic"],
   variable: "--font-cormorant",
   display: "swap",
@@ -82,14 +82,14 @@ const cormorant = Cormorant({
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-inter",
   display: "swap",
 });
 
 const manrope = Manrope({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-manrope",
   display: "swap",
   preload: false,
@@ -97,7 +97,7 @@ const manrope = Manrope({
 
 const workSans = Work_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: "variable",
   variable: "--font-work-sans",
   display: "swap",
   preload: false,
@@ -132,7 +132,7 @@ const spectral = Spectral({
 
 const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-outfit",
   display: "swap",
   preload: false,
@@ -140,7 +140,7 @@ const outfit = Outfit({
 
 const karla = Karla({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-karla",
   display: "swap",
   preload: false,
@@ -148,7 +148,7 @@ const karla = Karla({
 
 const sora = Sora({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-sora",
   display: "swap",
   preload: false,
@@ -156,7 +156,7 @@ const sora = Sora({
 
 const bodoniModa = Bodoni_Moda({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "variable",
   style: ["normal", "italic"],
   variable: "--font-bodoni-moda",
   display: "swap",
@@ -165,7 +165,7 @@ const bodoniModa = Bodoni_Moda({
 
 const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: "variable",
   style: ["normal", "italic"],
   variable: "--font-newsreader",
   display: "swap",
@@ -199,7 +199,7 @@ const archivoBlack = Archivo_Black({
 
 const bigShouldersDisplay = Big_Shoulders({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-big-shoulders-display",
   display: "swap",
   preload: false,
@@ -207,7 +207,7 @@ const bigShouldersDisplay = Big_Shoulders({
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-plus-jakarta-sans",
   display: "swap",
   preload: false,
@@ -215,7 +215,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-space-grotesk",
   display: "swap",
   preload: false,
@@ -223,7 +223,7 @@ const spaceGrotesk = Space_Grotesk({
 
 const urbanist = Urbanist({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-urbanist",
   display: "swap",
   preload: false,
@@ -231,7 +231,7 @@ const urbanist = Urbanist({
 
 const figtree = Figtree({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-figtree",
   display: "swap",
   preload: false,
@@ -239,7 +239,7 @@ const figtree = Figtree({
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-dm-sans",
   display: "swap",
   preload: false,
@@ -247,7 +247,7 @@ const dmSans = DM_Sans({
 
 const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: "variable",
   variable: "--font-nunito-sans",
   display: "swap",
   preload: false,
@@ -258,7 +258,9 @@ const nunitoSans = Nunito_Sans({
 // catalog, so we standardize on Noto Sans Bengali, same as bazaar.
 const notoSansBengali = Noto_Sans_Bengali({
   subsets: ["bengali"],
-  weight: ["400", "500", "600", "700"],
+  // Variable, not listed weights: Google now serves listed weights of this
+  // font at a URL with no file extension, which fails next/font at build.
+  weight: "variable",
   variable: "--font-bengali",
   display: "swap",
   preload: false,
