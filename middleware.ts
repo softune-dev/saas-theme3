@@ -8,6 +8,33 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || process.env.API_URL || "http://localhost:8000";
 
 /**
+ * Fast path for the block check. Reading the per-store blocklist from Edge
+ * Config answers from Vercel's own network, so a normal visit no longer costs a
+ * round trip to our API on every request. The backend writes these lists
+ * (app/edge_config.py), and the key format must match its key_for().
+ *
+ * Returns null when it can't answer (not configured, or the read failed), so
+ * the caller falls back to asking the API rather than treating that as "not
+ * blocked".
+ */
+async function blockedByEdgeConfig(host: string, clientIp: string): Promise<boolean | null> {
+  const connection = process.env.EDGE_CONFIG;
+  if (!connection) return null;
+  try {
+    const url = new URL(connection);
+    const key = `ipb_${host.toLowerCase().replace(/[^a-z0-9]/g, "_")}`;
+    url.pathname = `${url.pathname}/item/${key}`;
+    const res = await fetch(url, { cache: "no-store" });
+    if (res.status === 404) return false; // this store has never blocked anyone
+    if (!res.ok) return null;
+    const ips: unknown = await res.json();
+    return Array.isArray(ips) && ips.includes(clientIp);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * IP-block check, done HERE at the edge rather than inside lib/get-site.ts's
  * page-level fetch, because that fetch is wrapped in Next.js's Data Cache
  * (`next: { revalidate: 60 }`, see get-site.ts's own comment on why) — a
@@ -31,6 +58,8 @@ const API_BASE_URL =
  */
 async function checkIpBlocked(host: string, clientIp: string | undefined): Promise<boolean> {
   if (!clientIp) return false;
+  const fast = await blockedByEdgeConfig(host, clientIp);
+  if (fast !== null) return fast;
   try {
     const res = await fetch(`${API_BASE_URL}/public/site/${host}`, {
       method: "HEAD",
@@ -132,3 +161,12 @@ export async function middleware(request: NextRequest) {
   }
   return response;
 }
+
+// Without this, middleware ran on every JS, CSS, font and image file too, and
+// each run called our API. Those files can't reveal anything a blocked visitor
+// shouldn't see; the pages and API routes that do are still covered.
+export const config = {
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:png|jpe?g|gif|webp|avif|svg|ico|css|js|map|woff2?|ttf|otf)$).*)",
+  ],
+};
