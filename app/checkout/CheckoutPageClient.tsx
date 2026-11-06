@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { CreditCard, ChevronRight } from "lucide-react";
+import { FreeDeliveryNote } from "@/components/cart/FreeDeliveryNote";
 import { useCart } from "@/components/cart/CartContext";
 import { formatTaka } from "@/lib/utils";
 import { ManualPaymentModal, type ManualWallet } from "@/components/checkout/ManualPaymentModal";
@@ -570,6 +571,7 @@ export function CheckoutPageClient({
                     <span>Shipping</span>
                     <span>{formatTaka(deliveryCharge)}</span>
                   </div>
+                  <FreeDeliveryNote className="text-stone-500" />
                   <div className="flex justify-between font-semibold text-lg pt-3 border-t hairline text-[var(--foreground)]">
                     <span>Total</span>
                     <span className="text-[var(--foreground)] font-bold">{formatTaka(total)}</span>

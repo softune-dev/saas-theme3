@@ -345,6 +345,7 @@ export type PublicSiteConfig = {
       gtm_container_id?: string;
       favicon?: string;
     };
+    free_delivery_over_cents?: number | null;
     faqs?: { id: string; question: string; answer: string }[];
     legal?: {
       privacy?: { title: string; content: string; published: boolean };

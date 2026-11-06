@@ -26,7 +26,10 @@ interface CartContextType {
    * 0 when there's nothing to charge for (empty cart, all-free-delivery
    * cart, or no location picked yet) — never a fabricated flat fee. */
   deliveryFee: number;
+  /** Store's "free delivery over" amount in taka; 0 when it has none. Checkout
+   * on the server applies the same rule (app/api/public.py). */
   freeDeliveryThreshold: number;
+  hasChargedItems: boolean;
   appliedCoupon: string | null;
   couponDiscount: number;
   applyCoupon: (code: string) => { success: boolean; message: string };
@@ -38,13 +41,17 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const STORAGE_KEY = "aurora_cart_items_v1";
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({
+  children,
+  freeDeliveryThreshold = 0,
+}: {
+  children: React.ReactNode;
+  freeDeliveryThreshold?: number;
+}) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-
-  const freeDeliveryThreshold = 2500;
 
   // Load from localStorage on mount. A cart saved before freeDelivery/
   // deliveryCharges existed on Product (or from an old build) won't have
@@ -216,11 +223,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const deliveryFee = useMemo(() => {
     if (!selectedDeliveryLocation) return 0;
+    if (freeDeliveryThreshold > 0 && subtotal >= freeDeliveryThreshold) return 0;
+    // Per unit, the way checkout charges it: this showed one charge per
+    // product, so two of an item displayed less than the customer then paid.
     return chargedItems.reduce((sum, item) => {
       const match = (item.product.deliveryCharges ?? []).find((dc) => dc.name === selectedDeliveryLocation);
-      return sum + (match ? match.charge : 0);
+      return sum + (match ? match.charge * item.quantity : 0);
     }, 0);
-  }, [chargedItems, selectedDeliveryLocation]);
+  }, [chargedItems, selectedDeliveryLocation, freeDeliveryThreshold, subtotal]);
 
   let couponDiscount = 0;
   if (appliedCoupon === "ANANYA10") {
@@ -267,6 +277,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setDeliveryLocation: setSelectedDeliveryLocation,
         deliveryFee,
         freeDeliveryThreshold,
+        hasChargedItems: chargedItems.length > 0,
         appliedCoupon,
         couponDiscount,
         applyCoupon,
