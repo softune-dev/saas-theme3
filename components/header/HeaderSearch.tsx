@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
+import { SearchResults } from "./SearchResults";
 
 /**
- * Header search: the icon opens a bar under the header, Enter goes to
- * /shop?q=..., where the shop page filters the catalog (lib/search.ts).
+ * Header search: the icon opens a bar under the header. Matching products
+ * appear under it as you type (SearchResults); Enter goes to /shop?q=..., where the shop page filters the catalog (lib/search.ts).
  * Escape or the close button dismisses it. The bar is rendered into the
  * sticky <header> itself so it spans the full width, whatever box the icon
  * sits in.
@@ -61,7 +62,9 @@ export function HeaderSearch() {
             <Search strokeWidth={1.25} className="h-5 w-5 shrink-0 text-[var(--foreground)] opacity-60" />
             <input
               ref={inputRef}
-              type="search"
+              type="text"
+              inputMode="search"
+              autoComplete="off"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search products"
@@ -77,6 +80,15 @@ export function HeaderSearch() {
               <X strokeWidth={1.25} className="h-5 w-5" />
             </button>
           </form>
+          <div className="mx-auto max-w-3xl md:px-6">
+            <SearchResults
+              query={query}
+              onPick={() => {
+                setOpen(false);
+                setQuery("");
+              }}
+            />
+          </div>
         </div>,
           host,
         )

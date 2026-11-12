@@ -39,8 +39,16 @@ export function ProductDetailClient({
 
   const [activeImage, setActiveImage] = useState<number>(0);
   const [showVideo, setShowVideo] = useState<boolean>(false);
-  const [selectedSize, setSelectedSize] = useState<string | undefined>(undefined);
-  const [selectedColor, setSelectedColor] = useState<string | undefined>(undefined);
+  const [selectedSize, setSelectedSize] = useState<string | undefined>(product.sizes?.[0]);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(product.colors?.[0]?.name);
+
+  // Start on the first option of each variant, so a product with one size
+  // (or many) is ready to add to the bag without an extra tap. Reset when a
+  // related product opens on the same page.
+  useEffect(() => {
+    setSelectedSize(product.sizes?.[0]);
+    setSelectedColor(product.colors?.[0]?.name);
+  }, [product.id, product.sizes, product.colors]);
   // A color/size value with its own photo (dashboard variant editor)
   // overrides the main stage — set only on an explicit selection, cleared
   // the moment a gallery thumbnail (or a value with no photo) is picked, so
