@@ -2,12 +2,13 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter } from "lucide-react";
+import { Filter, X } from "lucide-react";
 import type { Event, Product, ProductCategory } from "@/lib/theme-types";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Footer } from "@/components/footer/Footer";
+import { matchesSearch } from "@/lib/search";
 
 const priceRanges = ["All", "Under ৳3,000", "৳3,000 - ৳6,000", "Over ৳6,000"];
 const sortOptions = ["Featured", "Price: Low to High", "Price: High to Low", "Highest Rated"];
@@ -24,6 +25,9 @@ export function ShopPageClient({
   events,
 }: ShopPageClientProps) {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  // Header search sends ?q=; every word must match (lib/search.ts).
+  const q = (searchParams.get("q") || "").trim();
 
   const categories = useMemo(() => {
     return ["All", ...allCategories.map((c) => c.name)];
@@ -78,6 +82,10 @@ export function ShopPageClient({
       result = result.filter((p) => selectedEvent.productIds.includes(p.id));
     }
 
+    if (q) {
+      result = result.filter((p) => matchesSearch(p, q));
+    }
+
     // Price Filter
     if (selectedPrice === "Under ৳3,000") result = result.filter((p) => p.price < 3000);
     if (selectedPrice === "৳3,000 - ৳6,000")
@@ -90,11 +98,13 @@ export function ShopPageClient({
     if (selectedSort === "Highest Rated") result.sort((a, b) => b.rating - a.rating);
 
     return result;
-  }, [allProducts, selectedCategory, selectedEvent, selectedPrice, selectedSort]);
+  }, [allProducts, selectedCategory, selectedEvent, selectedPrice, selectedSort, q]);
 
   const displayTitle = selectedEvent
     ? `${selectedEvent.name}.`
-    : selectedCategory === "All"
+    : q
+      ? `“${q}”`
+      : selectedCategory === "All"
       ? "The Collection."
       : `${selectedCategory}.`;
 
@@ -296,6 +306,15 @@ export function ShopPageClient({
               <span className="text-xs uppercase tracking-wider text-stone-500 font-medium">
                 {filteredProducts.length} Pieces Found
               </span>
+              {q ? (
+                <button
+                  onClick={() => router.push("/shop")}
+                  className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.16em] text-[var(--foreground)] font-semibold"
+                >
+                  Clear search
+                  <X strokeWidth={1.5} className="h-3.5 w-3.5" />
+                </button>
+              ) : null}
             </div>
 
             {filteredProducts.length > 0 ? (
@@ -318,13 +337,14 @@ export function ShopPageClient({
             ) : (
               <div className="py-24 text-center">
                 <p className="text-stone-500 text-sm">
-                  No products match your current filters.
+                  {q ? `Nothing matches “${q}”. Try another word.` : "No products match your current filters."}
                 </p>
                 <button
                   onClick={() => {
                     setSelectedCategory("All");
                     setSelectedPrice("All");
                     setSelectedSort("Featured");
+                    if (q) router.push("/shop");
                   }}
                   className="mt-6 text-xs uppercase tracking-[0.18em] font-semibold text-[var(--foreground)] link-underline"
                 >

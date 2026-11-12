@@ -246,6 +246,11 @@ export function CheckoutPageClient({
     );
   }
 
+  // The method the shopper actually paid with, not a fixed "Cash on Delivery".
+  const paymentLabel = paymentMethod
+    ? PAYMENT_LABELS[paymentMethod as PublicPaymentMethod["provider"]] || paymentMethod
+    : "—";
+
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-[var(--background)] pb-24 text-[var(--foreground)]">
       <div className="w-full px-6 pt-12 md:px-10 md:pt-16">
@@ -671,7 +676,7 @@ export function CheckoutPageClient({
                 </div>
                 <div className="flex justify-between">
                   <span>Payment:</span>
-                  <span>Cash on Delivery</span>
+                  <span>{paymentLabel}</span>
                 </div>
               </div>
 
@@ -690,8 +695,8 @@ export function CheckoutPageClient({
                   </div>
                 ))}
                 <div className="flex justify-between gap-4 text-[#1c1c1c]/60 pt-2">
-                  <span>Shipping (COD)</span>
-                  <span>{formatTaka(order.shipping_cents / 100)}</span>
+                  <span>Shipping</span>
+                  <span>{order.shipping_cents > 0 ? formatTaka(order.shipping_cents / 100) : "Free"}</span>
                 </div>
               </div>
 

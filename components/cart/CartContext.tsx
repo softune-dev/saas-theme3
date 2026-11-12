@@ -22,7 +22,8 @@ interface CartContextType {
   deliveryLocations: string[];
   selectedDeliveryLocation: string | null;
   setDeliveryLocation: (name: string) => void;
-  /** Real sum of each charged item's price for selectedDeliveryLocation.
+  /** The order's one delivery charge for selectedDeliveryLocation: the
+   * highest charge among the items, charged once.
    * 0 when there's nothing to charge for (empty cart, all-free-delivery
    * cart, or no location picked yet) — never a fabricated flat fee. */
   deliveryFee: number;
@@ -224,11 +225,12 @@ export function CartProvider({
   const deliveryFee = useMemo(() => {
     if (!selectedDeliveryLocation) return 0;
     if (freeDeliveryThreshold > 0 && subtotal >= freeDeliveryThreshold) return 0;
-    // Per unit, the way checkout charges it: this showed one charge per
-    // product, so two of an item displayed less than the customer then paid.
-    return chargedItems.reduce((sum, item) => {
+    // One charge per order, the way checkout charges it (app/api/public.py):
+    // the parcel ships once, so the highest item charge for this location
+    // applies, never a charge per item or per unit.
+    return chargedItems.reduce((max, item) => {
       const match = (item.product.deliveryCharges ?? []).find((dc) => dc.name === selectedDeliveryLocation);
-      return sum + (match ? match.charge * item.quantity : 0);
+      return match ? Math.max(max, match.charge) : max;
     }, 0);
   }, [chargedItems, selectedDeliveryLocation, freeDeliveryThreshold, subtotal]);
 

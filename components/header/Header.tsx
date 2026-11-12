@@ -2,13 +2,14 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { Menu, Search, ShoppingBag, User } from "lucide-react";
+import { Menu, ShoppingBag, User } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useTheme } from "@/lib/theme-context";
 import { useCart } from "@/components/cart/CartContext";
 import type { ProductCategory } from "@/lib/theme-types";
 import { SiteLogo } from "@/components/brand/SiteLogo";
 import { MobileMenu } from "./MobileMenu";
+import { HeaderSearch } from "./HeaderSearch";
 
 type NavItem = { key: string; href: string; label: string };
 
@@ -129,13 +130,7 @@ export function Header({
         </nav>
 
         <div className="relative z-20 ml-auto flex shrink-0 items-center justify-end gap-1 md:gap-2">
-          <Link
-            href="/shop"
-            aria-label="Search"
-            className="p-2 text-[var(--foreground)] transition-colors hover:text-[var(--brand)]"
-          >
-            <Search strokeWidth={1.25} className="h-5 w-5" />
-          </Link>
+          <HeaderSearch />
           <Link
             href="/login"
             aria-label="Account"
