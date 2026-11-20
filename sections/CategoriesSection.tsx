@@ -59,8 +59,11 @@ export function CategoriesSection({
         </h2>
       </motion.div>
 
-      <div className="slider-edge-fade overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-5 md:gap-8">
+      {/* Bleeds to the screen edges (negative margin) so a card that scrolls
+          off is cut by the screen, not by the section padding; the track's own
+          padding keeps the first card lined up with the title. */}
+      <div className="slider-edge-fade -mx-6 overflow-hidden md:-mx-10" ref={emblaRef}>
+        <div className="flex gap-5 px-6 md:gap-8 md:px-10">
           {isSkeleton
             ? (items as { id: string; i: number }[]).map((sk) => (
                 <div
