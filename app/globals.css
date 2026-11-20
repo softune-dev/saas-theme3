@@ -117,23 +117,17 @@ h1, h2, h3, h4, .font-display {
 .slider-edge-fade {
   position: relative;
 }
-.slider-edge-fade::before,
-.slider-edge-fade::after {
+/* Left edge only: the fade on the right hid the last card for no reason. */
+.slider-edge-fade::before {
   content: "";
   position: absolute;
   top: 0;
   bottom: 0;
+  left: 0;
   width: 4.5rem;
   z-index: 10;
   pointer-events: none;
-}
-.slider-edge-fade::before {
-  left: 0;
   background: linear-gradient(to right, var(--background), transparent);
-}
-.slider-edge-fade::after {
-  right: 0;
-  background: linear-gradient(to left, var(--background), transparent);
 }
 
 /* Custom scrollbar */
