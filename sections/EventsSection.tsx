@@ -24,12 +24,29 @@ function EventCard({ event, index }: { event: Event; index: number }) {
     >
       <Link
         href={`/shop?event=${encodeURIComponent(event.slug)}`}
-        className="group relative flex aspect-[4/5] w-full flex-col justify-end overflow-hidden bg-stone-200 md:aspect-[16/10]"
+        // Image-only events show the picture at the shape it was uploaded in,
+        // so nothing is cropped. Cards with text keep a fixed frame, since the
+        // text is laid over the picture and needs a predictable box.
+        className={
+          event.imageOnly && event.image
+            ? "group relative block w-full overflow-hidden bg-stone-200"
+            : "group relative flex aspect-[4/5] w-full flex-col justify-end overflow-hidden bg-stone-200 md:aspect-[16/10]"
+        }
       >
-        {event.image ? (
+        {event.image && event.imageOnly ? (
           <Image
             src={event.image}
-            alt={event.imageOnly ? event.name : ""}
+            alt={event.name}
+            width={0}
+            height={0}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ width: "100%", height: "auto" }}
+            className="block transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+        ) : event.image ? (
+          <Image
+            src={event.image}
+            alt=""
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
@@ -98,7 +115,7 @@ export function EventsSection({ selectedEventIds, events }: EventsSectionProps) 
   return (
     <section className="w-full overflow-hidden bg-transparent">
       <div className="w-full overflow-hidden px-6 py-8 md:px-10 md:py-10">
-        <div className="grid grid-cols-1 overflow-hidden md:grid-cols-2">
+        <div className="grid grid-cols-1 items-start gap-4 overflow-hidden md:grid-cols-2 md:gap-6">
           {isSkeleton
             ? Array.from({ length: MAX_EVENTS }).map((_, i) => (
                 <SkeletonEventCard key={i} eventIndex={i + 1} />
