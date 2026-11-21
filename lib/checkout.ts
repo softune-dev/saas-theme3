@@ -61,6 +61,23 @@ export type PublicOrderOut = {
   created_at: string;
 };
 
+/**
+ * Meta's browser identifiers (the _fbp / _fbc cookies the pixel sets). They are
+ * sent with the order so the server-side Purchase event can be matched to the
+ * ad click. Absent for shoppers who block the pixel, and then simply omitted.
+ * Format-checked here and again by the server before they go to Meta.
+ */
+function metaBrowserIds(): { fbp?: string; fbc?: string } {
+  if (typeof document === "undefined") return {};
+  const read = (name: string) =>
+    document.cookie
+      .split("; ")
+      .find((c) => c.startsWith(`${name}=`))
+      ?.slice(name.length + 1);
+  const ok = (v?: string) => (v && /^[A-Za-z0-9._-]{1,200}$/.test(v) ? v : undefined);
+  return { fbp: ok(read("_fbp")), fbc: ok(read("_fbc")) };
+}
+
 export async function submitOrder(
   host: string,
   payload: {
@@ -79,7 +96,7 @@ export async function submitOrder(
   const res = await fetch(`${API_BASE_URL}/public/site/${host}/orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...payload, device_id, recaptcha_token, recaptcha_v2_token }),
+    body: JSON.stringify({ ...payload, device_id, ...metaBrowserIds(), recaptcha_token, recaptcha_v2_token }),
   });
   if (!res.ok) {
     await throwForErrorResponse(res, "Couldn't place your order. Please try again.");
