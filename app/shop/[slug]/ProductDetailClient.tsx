@@ -16,6 +16,8 @@ import { useCart } from "@/components/cart/CartContext";
 import { trackAddToCart, trackViewContent } from "@/lib/tracking";
 import { Footer } from "@/components/footer/Footer";
 import { resolveVariantCombination } from "@/lib/variant-combo";
+import { useBusiness } from "@/lib/business-context";
+import { whatsappLink } from "@/lib/whatsapp";
 
 export function ProductDetailClient({
   initialProduct,
@@ -97,13 +99,20 @@ export function ProductDetailClient({
     router.push("/checkout");
   };
 
+  const business = useBusiness();
+  // The store's own WhatsApp (its phone as a fallback). With neither set the
+  // button is hidden: it used to open a chat with a hard-coded placeholder
+  // number, so real customers were messaging a stranger.
+  const whatsappRaw = business.whatsapp || business.phone;
+  const hasWhatsapp = !!whatsappLink(whatsappRaw);
+
   const handleWhatsAppBuy = () => {
-    const phoneNumber = "8801700000000"; // Default phone number
     const url = typeof window !== "undefined" ? window.location.href : "";
     const colorLine = selectedColor ? `\nColor: ${selectedColor}` : "";
     const sizeLine = selectedSize ? `\nSize: ${selectedSize}` : "";
     const message = `Hello, I'd like to order: *${product.name}*${sizeLine}${colorLine}\nQuantity: ${quantity}\nLink: ${url}`;
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = whatsappLink(whatsappRaw, message);
+    if (!whatsappUrl) return;
     window.open(whatsappUrl, "_blank");
   };
 
@@ -386,7 +395,8 @@ export function ProductDetailClient({
                 Buy Now
               </button>
 
-              <button
+              {hasWhatsapp ? (
+                <button
                 onClick={handleWhatsAppBuy}
                 disabled={comboOutOfStock || hasUnresolvedCombo}
                 className="flex cursor-pointer items-center justify-center gap-2 rounded-[var(--theme-btn-radius)] border border-stone-300 bg-white py-4 text-sm font-semibold text-[var(--foreground)] transition-colors hover:border-[var(--brand)] disabled:cursor-not-allowed disabled:opacity-40"
@@ -394,6 +404,7 @@ export function ProductDetailClient({
                 <img src="/assets/whatsapp.svg" alt="WhatsApp Icon" className="w-4.5 h-4.5" />
                 Order via WhatsApp
               </button>
+              ) : null}
             </div>
           </div>
 

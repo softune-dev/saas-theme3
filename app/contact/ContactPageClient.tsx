@@ -14,6 +14,7 @@ import {
 import { Footer } from "@/components/footer/Footer";
 import { SocialLinks } from "@/components/social-links/SocialLinks";
 import type { Business } from "@/lib/business-context";
+import { whatsappLink } from "@/lib/whatsapp";
 import {
   RecaptchaChallengeRequiredError,
   getRecaptchaToken,
@@ -122,7 +123,7 @@ export function ContactPageClient({
           icon: MessageCircle,
           label: "WhatsApp",
           body: "Chat with us",
-          href: `https://wa.me/${business.whatsapp.replace(/[^0-9]/g, "")}`,
+          href: whatsappLink(business.whatsapp),
         }
       : null,
   ].filter(Boolean) as {
