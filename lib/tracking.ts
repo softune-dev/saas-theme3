@@ -14,6 +14,14 @@
  * Purchase's `orderId` is passed as fbq's eventID so Meta deduplicates this
  * client-side event against the server-side Conversions API event fired for
  * the same order (see app/marketing.py) into one conversion, not two.
+ *
+ * Meta fields: every product event carries `content_type: "product"` and a
+ * `contents` list of { id, quantity, item_price }. The id is the product's
+ * own id, the same one the storefront's structured data (sku) uses, so events
+ * can be matched to a product catalog. Without content_type Meta cannot tie
+ * an event to a catalog item, which is what dynamic ads and sales
+ * optimisation depend on. `price` is always the unit price the shopper is
+ * charged (chosen variant and any active sale included, see lib/pricing.ts).
  */
 
 declare global {
@@ -39,6 +47,11 @@ export type TrackedItem = {
   quantity?: number;
 };
 
+/** Meta's `contents` shape for a list of items. */
+function metaContents(items: TrackedItem[]) {
+  return items.map((i) => ({ id: i.id, quantity: i.quantity ?? 1, item_price: i.price }));
+}
+
 export function trackViewContent(item: TrackedItem, currency: string) {
   safely(() =>
     window.gtag?.("event", "view_item", {
@@ -52,6 +65,7 @@ export function trackViewContent(item: TrackedItem, currency: string) {
       content_ids: [item.id],
       content_name: item.name,
       content_type: "product",
+      contents: metaContents([{ ...item, quantity: 1 }]),
       value: item.price,
       currency,
     }),
@@ -80,6 +94,7 @@ export function trackAddToCart(item: TrackedItem, currency: string) {
       content_ids: [item.id],
       content_name: item.name,
       content_type: "product",
+      contents: metaContents([{ ...item, quantity }]),
       value,
       currency,
     }),
@@ -110,6 +125,8 @@ export function trackInitiateCheckout(items: TrackedItem[], value: number, curre
   safely(() =>
     window.fbq?.("track", "InitiateCheckout", {
       content_ids: ids,
+      content_type: "product",
+      contents: metaContents(items),
       num_items: items.reduce((n, i) => n + (i.quantity ?? 1), 0),
       value,
       currency,
@@ -154,7 +171,14 @@ export function trackPurchase(params: {
     window.fbq?.(
       "track",
       "Purchase",
-      { content_ids: ids, value, currency },
+      {
+        content_ids: ids,
+        content_type: "product",
+        contents: metaContents(items),
+        num_items: items.reduce((n, i) => n + (i.quantity ?? 1), 0),
+        value,
+        currency,
+      },
       { eventID: orderId },
     ),
   );

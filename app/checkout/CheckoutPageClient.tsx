@@ -21,6 +21,7 @@ import {
 } from "@/components/recaptcha-v2-fallback";
 import type { PublicPaymentMethod } from "@/lib/theme-types";
 import { resolveVariantCombination } from "@/lib/variant-combo";
+import { unitPrice } from "@/lib/pricing";
 
 // The field only ever collects the LOCAL part after the fixed "+880"
 // prefix (see the input below) — 10 digits, starting 3-9 per the real BD
@@ -118,7 +119,7 @@ export function CheckoutPageClient({
   useEffect(() => {
     if (items.length === 0) return;
     trackInitiateCheckout(
-      items.map((i) => ({ id: i.product.id, name: i.product.name, price: i.product.price, quantity: i.quantity })),
+      items.map((i) => ({ id: i.product.id, name: i.product.name, price: unitPrice(i.product, i.selectedSize, i.selectedColor), quantity: i.quantity })),
       total,
       "BDT",
     );
@@ -177,7 +178,7 @@ export function CheckoutPageClient({
         orderId: placed.order_number,
         value: placed.total_cents / 100,
         currency: placed.currency,
-        items: items.map((i) => ({ id: i.product.id, name: i.product.name, price: i.product.price, quantity: i.quantity })),
+        items: items.map((i) => ({ id: i.product.id, name: i.product.name, price: unitPrice(i.product, i.selectedSize, i.selectedColor), quantity: i.quantity })),
       });
     } catch (err) {
       if (err instanceof RecaptchaChallengeRequiredError) {
@@ -550,7 +551,7 @@ export function CheckoutPageClient({
                         </div>
                       </div>
                       <div className="text-sm font-semibold text-[var(--foreground)]">
-                        {formatTaka(i.product.price * i.quantity)}
+                        {formatTaka(unitPrice(i.product, i.selectedSize, i.selectedColor) * i.quantity)}
                       </div>
                     </li>
                   ))}

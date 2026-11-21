@@ -8,6 +8,7 @@ import { Minus, Plus, Tag, ShieldCheck, Truck } from "lucide-react";
 import { useCart } from "@/components/cart/CartContext";
 import { formatTaka } from "@/lib/utils";
 import { Footer } from "@/components/footer/Footer";
+import { unitPrice } from "@/lib/pricing";
 
 export function CartPageClient() {
   const {
@@ -122,7 +123,7 @@ export function CartPageClient() {
                           </div>
                         </div>
                         <div className="shrink-0 text-sm font-medium text-[var(--foreground)]">
-                          {formatTaka(item.product.price)}
+                          {formatTaka(unitPrice(item.product, item.selectedSize, item.selectedColor))}
                         </div>
                       </div>
 

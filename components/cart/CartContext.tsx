@@ -2,6 +2,8 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { Product, CartItem } from "@/lib/theme-types";
+import { unitPrice } from "@/lib/pricing";
+import { trackAddToCart } from "@/lib/tracking";
 
 interface CartContextType {
   items: CartItem[];
@@ -98,6 +100,13 @@ export function CartProvider({
     selectedSize?: string,
     selectedColor?: string
   ) => {
+    // Every way into the cart (product page, Buy Now, product cards, quick view)
+    // comes through here, so AddToCart is reported once, here, with the price the
+    // shopper will be charged for the chosen variant.
+    trackAddToCart(
+      { id: product.id, name: product.name, price: unitPrice(product, selectedSize, selectedColor), quantity },
+      "BDT",
+    );
     setItems((prev) => {
       const index = prev.findIndex(
         (item) =>
@@ -177,7 +186,7 @@ export function CartProvider({
   };
 
   const subtotal = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+    (sum, item) => sum + unitPrice(item.product, item.selectedSize, item.selectedColor) * item.quantity,
     0
   );
 
