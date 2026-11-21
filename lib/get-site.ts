@@ -249,6 +249,16 @@ export async function getSiteSitemap(providedHost?: string): Promise<
     }));
 }
 
+/** Structured data wants plain text; merchants write descriptions as HTML. */
+function plainText(html: string | undefined): string {
+  return (html || "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 /**
  * Generate Product Schema for rich Google Shopping / rich search snippet results.
  */
@@ -260,7 +270,7 @@ export function generateProductJsonLd(product: Product, host: string, siteName: 
     "@type": "Product",
     name: product.name,
     image: product.images,
-    description: product.description,
+    description: plainText(product.description) || undefined,
     sku: product.id,
     brand: {
       "@type": "Brand",
@@ -271,7 +281,9 @@ export function generateProductJsonLd(product: Product, host: string, siteName: 
       url: `${baseUrl}/shop/${product.slug}`,
       priceCurrency: "BDT",
       price: product.price,
-      priceValidUntil: "2027-12-31",
+      // A year ahead, recomputed on each render: a fixed date goes stale and
+      // Search Console then flags every product.
+      priceValidUntil: new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().slice(0, 10),
       itemCondition: "https://schema.org/NewCondition",
       availability: product.inStock
         ? "https://schema.org/InStock"
@@ -281,11 +293,17 @@ export function generateProductJsonLd(product: Product, host: string, siteName: 
         name: siteName,
       },
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: product.rating.toString(),
-      reviewCount: product.reviewCount.toString(),
-    },
+    // Only when there are real reviews: Google rejects a rating with zero
+    // reviews, and an invented one would be misleading.
+    ...(product.reviewCount > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: product.rating.toString(),
+            reviewCount: product.reviewCount.toString(),
+          },
+        }
+      : {}),
   };
 }
 
