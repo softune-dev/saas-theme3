@@ -3,13 +3,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useTheme } from "@/lib/theme-context";
-import { useBusiness } from "@/lib/business-context";
+import { useBusiness, useBadge } from "@/lib/business-context";
 import { SiteLogo } from "@/components/brand/SiteLogo";
 import { SocialLinks } from "@/components/social-links/SocialLinks";
 
 export function Footer() {
   const { settings } = useTheme();
   const business = useBusiness();
+  const badge = useBadge();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -127,6 +128,11 @@ export function Footer() {
             className="flex items-center gap-5 normal-case tracking-normal"
             iconClassName="size-5"
           />
+          {badge ? (
+            <a href="https://softunebd.com" target="_blank" rel="noopener">
+              Powered by SoftuneBD
+            </a>
+          ) : null}
         </div>
       </div>
     </footer>

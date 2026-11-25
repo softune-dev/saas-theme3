@@ -360,4 +360,8 @@ export type PublicSiteConfig = {
   pages: PublicSitePage[];
   json_ld?: Record<string, any> | null;
   updated_at?: string;
+  /** "whatsapp" turns checkout into a WhatsApp message. Missing means "checkout". */
+  ordering?: "checkout" | "whatsapp";
+  /** Show the "Powered by SoftuneBD" footer line. Missing means false. */
+  badge?: boolean;
 };

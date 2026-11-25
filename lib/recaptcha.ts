@@ -38,6 +38,18 @@ export class RecaptchaChallengeRequiredError extends Error {
   }
 }
 
+/** Thrown when the store reached its monthly order limit (HTTP 403, code
+ * "order_limit"). `whatsapp` is the merchant's number from the backend, or
+ * null — the checkout then offers ordering on WhatsApp instead of an error. */
+export class OrderLimitError extends Error {
+  whatsapp: string | null;
+  constructor(whatsapp: string | null) {
+    super("This store is taking orders on WhatsApp right now.");
+    this.name = "OrderLimitError";
+    this.whatsapp = whatsapp;
+  }
+}
+
 /** Reads a fetch Response's error body and throws the right error type —
  * RecaptchaChallengeRequiredError for the specific "please verify" signal,
  * a plain Error otherwise. Call this instead of a bare `throw new Error(...)`
@@ -47,6 +59,9 @@ export async function throwForErrorResponse(res: Response, fallbackMessage: stri
   const detail = body.detail;
   if (detail && typeof detail === "object" && detail.code === "recaptcha_challenge_required") {
     throw new RecaptchaChallengeRequiredError(detail.message || "Additional verification required.");
+  }
+  if (detail && typeof detail === "object" && detail.code === "order_limit") {
+    throw new OrderLimitError(typeof detail.whatsapp === "string" && detail.whatsapp ? detail.whatsapp : null);
   }
   const message = typeof detail === "string" ? detail : detail?.message;
   throw new Error(message || fallbackMessage);
