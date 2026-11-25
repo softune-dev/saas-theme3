@@ -78,6 +78,26 @@ function metaBrowserIds(): { fbp?: string; fbc?: string } {
   return { fbp: ok(read("_fbp")), fbc: ok(read("_fbc")) };
 }
 
+/**
+ * Is the store still taking orders right now? Asked just before a shopper is
+ * told to send money, and only on stores with a monthly order limit: a page
+ * opened earlier may still say "checkout". Fails open, because the order POST
+ * decides for real and a slow network must not stop a sale.
+ */
+export async function storeTakesOrders(host: string): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/public/site/${host}`, {
+      cache: "no-store",
+      signal: AbortSignal.timeout(3000),
+    });
+    if (!res.ok) return true;
+    const config = (await res.json()) as { ordering?: string };
+    return config.ordering !== "whatsapp";
+  } catch {
+    return true;
+  }
+}
+
 export async function submitOrder(
   host: string,
   payload: {

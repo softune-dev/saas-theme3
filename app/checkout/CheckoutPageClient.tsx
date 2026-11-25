@@ -11,7 +11,7 @@ import { useCart } from "@/components/cart/CartContext";
 import { formatTaka } from "@/lib/utils";
 import { ManualPaymentModal, type ManualWallet } from "@/components/checkout/ManualPaymentModal";
 import { NagadPaymentModal } from "@/components/checkout/NagadPaymentModal";
-import { captureAbandonedCheckout, submitOrder, type PublicOrderOut } from "@/lib/checkout";
+import { captureAbandonedCheckout, storeTakesOrders, submitOrder, type PublicOrderOut } from "@/lib/checkout";
 import { OrderLimitError, RecaptchaChallengeRequiredError, hasV2Fallback } from "@/lib/recaptcha";
 import { useBusiness } from "@/lib/business-context";
 import { orderWhatsappMessage, whatsappLink } from "@/lib/whatsapp";
@@ -60,6 +60,7 @@ export function CheckoutPageClient({
   logoUrl,
   paymentMethods,
   ordering = "checkout",
+  limited = false,
 }: {
   host: string;
   siteName: string;
@@ -72,6 +73,8 @@ export function CheckoutPageClient({
   /** Config's top-level `ordering`; missing means "checkout". "whatsapp"
    * turns Complete Order into a prepared WhatsApp message instead. */
   ordering?: "checkout" | "whatsapp";
+  /** The store has a monthly order limit (the same plan that shows the badge). */
+  limited?: boolean;
 }) {
   const checkoutReadyMethods = paymentMethods.filter(
     (m) => m.provider === "cod" || m.provider === "manual",
@@ -260,6 +263,15 @@ export function CheckoutPageClient({
     // inline form field — see ManualPaymentModal. The real order is only
     // placed once that modal resolves with a transaction id.
     if (paymentMethod === "manual") {
+      if (limited) {
+        setPlacing(true);
+        const open = await storeTakesOrders(host);
+        setPlacing(false);
+        if (!open) {
+          setLimit({ whatsapp: null });
+          return;
+        }
+      }
       setActiveManualWallet(manualWallets.length === 1 ? manualWallets[0] : null);
       setManualModalOpen(true);
       return;
