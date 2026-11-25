@@ -37,13 +37,19 @@ export type OrderMessageInput = {
   transactionId?: string;
 };
 
+const MAX_LINES = 8;
+
 /** The readable order text the shopper sends to the merchant on WhatsApp. */
 export function orderWhatsappMessage(o: OrderMessageInput): string {
   const lines: string[] = [`New order for ${o.storeName}`, ""];
-  o.items.forEach((i, idx) => {
+  // The whole text travels in a URL, and one Bangla letter is nine characters
+  // there: a long cart would be cut off or dropped by WhatsApp.
+  const shown = o.items.slice(0, MAX_LINES);
+  shown.forEach((i, idx) => {
     const variant = i.variant ? `, ${i.variant}` : "";
-    lines.push(`${idx + 1}. ${i.name}${variant}, Qty ${i.quantity}, ${i.linePrice}`);
+    lines.push(`${idx + 1}. ${i.name.slice(0, 60)}${variant}, Qty ${i.quantity}, ${i.linePrice}`);
   });
+  if (o.items.length > shown.length) lines.push(`and ${o.items.length - shown.length} more`);
   lines.push("", `Subtotal: ${o.subtotal}`);
   lines.push(`Delivery${o.deliveryLocation ? ` to ${o.deliveryLocation}` : ""}: ${o.delivery}`);
   lines.push(`Total: ${o.total}`, "");
