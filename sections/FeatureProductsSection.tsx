@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import type { Product } from "@/lib/theme-types";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -30,11 +29,7 @@ export function FeatureProductsSection({
   return (
     <section className="w-full bg-transparent">
       <div className="w-full px-6 py-10 md:px-10 md:py-14">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="mb-12 text-center md:mb-16"
         >
           <h2
@@ -43,7 +38,7 @@ export function FeatureProductsSection({
           >
             {(featureProductsTitle ?? "").trim() || "Featured"}
           </h2>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 w-full">
           {isSkeleton

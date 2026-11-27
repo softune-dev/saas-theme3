@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { Award, Heart, ShieldCheck } from "lucide-react";
 import { Footer } from "@/components/footer/Footer";
 import type { PublicSiteConfig } from "@/lib/theme-types";
@@ -43,10 +42,7 @@ export function AboutPageClient({
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)] flex flex-col">
       {/* Editorial Header */}
       <section className="mx-auto max-w-[1600px] px-6 md:px-10 pt-16 md:pt-24 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="space-y-6 max-w-4xl mx-auto"
         >
           <span className="eyebrow justify-center">Our Story</span>
@@ -61,16 +57,12 @@ export function AboutPageClient({
               {tagline}
             </p>
           ) : null}
-        </motion.div>
+        </div>
       </section>
 
       {/* Story Stage */}
       <section className="mx-auto max-w-[1600px] px-6 md:px-10 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 1.02 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="relative aspect-[3/4] md:aspect-[4/5] bg-stone-200 overflow-hidden"
         >
           {aboutImage ? (
@@ -82,13 +74,9 @@ export function AboutPageClient({
               className="object-cover"
             />
           ) : null}
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="space-y-6 text-left max-w-md"
         >
           <span className="eyebrow">The Origin</span>
@@ -103,7 +91,7 @@ export function AboutPageClient({
               {p}
             </p>
           ))}
-        </motion.div>
+        </div>
       </section>
 
       {/* Pillars Section — mirrors the site's own Why Choose Us content */}
@@ -128,12 +116,8 @@ export function AboutPageClient({
               {pillars.map((p, i) => {
                 const Icon = PILLAR_ICONS[i % PILLAR_ICONS.length];
                 return (
-                  <motion.div
+                  <div
                     key={p.title || i}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
                     className="p-8 border border-stone-200 bg-[var(--background)] flex flex-col justify-between h-full"
                   >
                     <div>
@@ -152,7 +136,7 @@ export function AboutPageClient({
                         </p>
                       ) : null}
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>

@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ImageOff } from "lucide-react";
 import { Product } from "@/lib/theme-types";
 import { getContrastColor } from "@/lib/color-contrast";
@@ -34,15 +33,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{
-          duration: 0.7,
-          delay: Math.min(index, 6) * 0.05,
-          ease: [0.22, 1, 0.36, 1],
-        }}
+      <div
         className="w-full"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -107,7 +98,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           </div>
         </div>
         </Link>
-      </motion.div>
+      </div>
 
       <QuickViewModal
         product={quickView ? product : null}

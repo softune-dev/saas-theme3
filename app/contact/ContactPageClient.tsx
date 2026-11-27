@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
 import {
   Send,
   CheckCircle2,
@@ -137,10 +136,7 @@ export function ContactPageClient({
     <div className="flex min-h-screen flex-col bg-[var(--background)] text-[var(--foreground)]">
       {/* Editorial header — same language as About */}
       <section className="mx-auto max-w-[1600px] px-6 pt-16 text-center md:px-10 md:pt-24">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="mx-auto max-w-3xl space-y-5"
         >
           <span className="eyebrow justify-center">Get in touch</span>
@@ -154,17 +150,13 @@ export function ContactPageClient({
             {business.support_note?.trim() ||
               "Questions about an order, sizing, or something else? Send a note and we will get back to you."}
           </p>
-        </motion.div>
+        </div>
       </section>
 
       <section className="mx-auto w-full max-w-[1600px] flex-1 px-6 py-16 md:px-10 md:py-24">
         <div className="grid grid-cols-1 items-start gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Channels */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          <div
             className="space-y-10 lg:col-span-5"
           >
             <div className="space-y-3">
@@ -244,14 +236,10 @@ export function ContactPageClient({
                 />
               </div>
             ) : null}
-          </motion.div>
+          </div>
 
           {/* Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          <div
             className="border border-stone-200 bg-stone-50/50 p-8 sm:p-10 lg:col-span-7"
           >
             <div className="mb-8 space-y-2">
@@ -370,7 +358,7 @@ export function ContactPageClient({
                 <RecaptchaDisclosure />
               </form>
             )}
-          </motion.div>
+          </div>
         </div>
       </section>
 

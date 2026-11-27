@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import type { Event } from "@/lib/theme-types";
 
@@ -16,11 +15,7 @@ const MAX_EVENTS = 2;
 
 function EventCard({ event, index }: { event: Event; index: number }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: index * 0.08 }}
+    <div
     >
       <Link
         href={`/shop?event=${encodeURIComponent(event.slug)}`}
@@ -75,7 +70,7 @@ function EventCard({ event, index }: { event: Event; index: number }) {
           </>
         )}
       </Link>
-    </motion.div>
+    </div>
   );
 }
 

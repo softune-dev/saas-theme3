@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import type { Product, ProductCategory } from "@/lib/theme-types";
@@ -148,11 +147,7 @@ export function CategoryShowcaseSection({
   return (
     <section className="w-full bg-transparent">
       <div className="w-full px-6 py-10 md:px-10 md:py-14">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="mb-12 text-center md:mb-16"
         >
           <h2
@@ -161,7 +156,7 @@ export function CategoryShowcaseSection({
           >
             {(categoryShowcaseTitle ?? "").trim() || "Collections"}
           </h2>
-        </motion.div>
+        </div>
 
         <div className="flex w-full flex-col gap-10 md:gap-12">
           {isSkeleton

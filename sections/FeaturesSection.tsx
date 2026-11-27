@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { FeatureIcon } from "@/lib/icon-map";
 import { useTheme } from "@/lib/theme-context";
 
@@ -130,16 +129,8 @@ export function FeaturesSection(props: FeaturesSectionProps) {
                 </div>
               ))
             : commitments.map((item, i) => (
-                <motion.div
+                <div
                   key={`${item.title}-${i}`}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{
-                    duration: 0.7,
-                    delay: i * 0.1,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
                   className="group flex flex-col items-center px-6 py-8 text-center transition-colors duration-300 hover:bg-stone-100/40 md:py-10"
                 >
                   {item.image ? (
@@ -166,7 +157,7 @@ export function FeaturesSection(props: FeaturesSectionProps) {
                       {item.description}
                     </p>
                   ) : null}
-                </motion.div>
+                </div>
               ))}
         </div>
       </div>

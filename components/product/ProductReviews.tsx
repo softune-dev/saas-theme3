@@ -109,7 +109,7 @@ export function ProductReviews({ averageRating = 0, totalReviews = 0 }: ProductR
         {/* Right: Actual Reviews List OR Review Form */}
         <div className="md:col-span-8 w-full flex flex-col gap-8">
           {showForm ? (
-            <div className="w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="w-full">
               {submitted ? (
                 <div className="py-8 text-center space-y-2">
                   <h4 className="text-lg font-medium text-[var(--foreground)]">Review Submitted</h4>

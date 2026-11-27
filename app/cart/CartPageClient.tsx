@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Minus, Plus, Tag, ShieldCheck, Truck } from "lucide-react";
 import { useCart } from "@/components/cart/CartContext";
 import { formatTaka } from "@/lib/utils";
@@ -53,10 +52,7 @@ export function CartPageClient() {
           itemCount === 0 ? "pb-16 md:pb-24" : "",
         ].join(" ")}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        <div
           className="mx-auto flex max-w-3xl flex-col items-center space-y-5"
         >
           <span className="eyebrow justify-center">Shopping bag</span>
@@ -79,7 +75,7 @@ export function CartPageClient() {
               Explore collections
             </Link>
           ) : null}
-        </motion.div>
+        </div>
       </section>
 
       {items.length > 0 ? (

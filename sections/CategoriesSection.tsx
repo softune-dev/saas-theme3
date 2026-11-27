@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import type { ProductCategory } from "@/lib/theme-types";
@@ -47,17 +46,13 @@ export function CategoriesSection({
 
   return (
     <section className="w-full px-6 py-10 md:px-10 md:py-14">
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      <div
         className="mb-12 text-center md:mb-16"
       >
         <h2 className="font-display text-3xl font-medium leading-tight tracking-tight text-[var(--foreground)] sm:text-4xl md:text-5xl">
           {(categoriesTitle ?? "").trim() || "Categories"}
         </h2>
-      </motion.div>
+      </div>
 
       {/* Bleeds to the screen edges (negative margin) so a card that scrolls
           off is cut by the screen, not by the section padding; the track's own

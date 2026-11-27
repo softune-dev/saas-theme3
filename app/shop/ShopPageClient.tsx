@@ -3,7 +3,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
 import { Filter, X } from "lucide-react";
 import type { Event, Product, ProductCategory } from "@/lib/theme-types";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -138,11 +137,8 @@ export function ShopPageClient({
         <div className="absolute inset-0 bg-black/45 z-0" />
 
         <div className="relative z-10 text-center text-white px-6 w-full max-w-4xl">
-          <motion.div
+          <div
             key={displayTitle}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
             <h1
               style={{ fontFamily: '"Fraunces", Georgia, serif' }}
@@ -150,7 +146,7 @@ export function ShopPageClient({
             >
               {displayTitle}
             </h1>
-          </motion.div>
+          </div>
         </div>
       </div>
 
@@ -319,20 +315,13 @@ export function ShopPageClient({
 
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 md:gap-x-8 gap-y-12 md:gap-y-16">
-                <AnimatePresence mode="popLayout">
                   {filteredProducts.map((p, i) => (
-                    <motion.div
+                    <div
                       key={p.id}
-                      layout
-                      initial={{ opacity: 0, scale: 0.96 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.96 }}
-                      transition={{ duration: 0.4 }}
                     >
                       <ProductCard product={p} index={i} />
-                    </motion.div>
+                    </div>
                   ))}
-                </AnimatePresence>
               </div>
             ) : (
               <div className="py-24 text-center">
